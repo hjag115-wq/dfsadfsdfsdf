@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<title>Международный Молодежный Форум НОКИ</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--c:min(520px,78vw);--y:#FDCC1B;--o:#FF7200;--g:#2B965C;--r:#FF415C;--bg:#F4F5F2;--ink:#17181a;--mute:#5d6068;--card:#fff;--dk:#16201a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html[data-theme="dark"],:root[data-theme="dark"]{color-scheme:dark;--bg:#0f1110;--ink:#f3f4f1;--mute:#aeb2ac;--card:#1a1d1b;--dk:#000}
+:root[data-theme="dark"] .ring{filter:blur(26px) saturate(1.25);opacity:1}
+:root[data-theme="dark"] header{box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.rt{display:flex;align-items:center;gap:8px}
+.tg{width:40px;height:40px;border-radius:50%;border:0;background:var(--bg);color:var(--ink);font-size:1.15rem;cursor:pointer;transition:.3s}.tg:hover{transform:rotate(25deg) scale(1.08);background:var(--y);color:#17181a}
+body,header,.hero,.bc,.mc,.day,.pbox,.pt,.side{transition:background-color .4s,color .4s}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Montserrat","Century Gothic","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.5;overflow-x:hidden}
+h1,h2,h3{font-weight:700;line-height:1.08;margin:0;letter-spacing:-.02em}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--o);outline-offset:3px}
+header{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));z-index:30;margin:10px 12px 0;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 12px 10px 22px;background:var(--card);border-radius:99px;box-shadow:0 8px 30px rgba(0,0,0,.07)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:.62rem;line-height:1.15;max-width:120px}
+.brand svg{width:42px;flex:none}
+nav{display:flex;gap:30px;font-size:.92rem;font-weight:500}
+nav a{text-decoration:none;color:var(--mute);transition:.2s}nav a:hover{color:var(--ink)}
+.lang{display:flex;gap:4px;background:var(--bg);border-radius:99px;padding:4px}
+.lang button{font:inherit;font-weight:600;font-size:.8rem;border:0;background:none;color:var(--ink);border-radius:99px;padding:7px 13px;cursor:pointer;transition:.25s}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+@media(max-width:820px){nav{display:none}}
+main,footer{margin:0 12px}
+.hero{position:relative;margin-top:12px;border-radius:48px;background:var(--card);min-height:max(calc(var(--c)*1.28 + 60px),min(720px,88svh));display:grid;place-items:center;overflow:hidden;text-align:center}
+.ring{position:absolute;width:calc(var(--c)*1.28);aspect-ratio:1;border-radius:50%;background:conic-gradient(var(--y),var(--o),var(--r),var(--g),var(--y));filter:blur(34px);opacity:.85;animation:spin 18s linear infinite}
+.dot{position:absolute;width:var(--c);aspect-ratio:1;border-radius:50%;background:var(--card)}
+.hero h1{position:relative;z-index:2;width:calc(var(--c)*.8);margin:0 auto;padding:0;font-size:calc(var(--c)*.098);line-height:1.12;text-wrap:balance;overflow-wrap:normal}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cap{position:absolute;z-index:2;left:30px;right:30px;bottom:24px;display:flex;justify-content:space-between;gap:16px;font-weight:500;font-size:.95rem;text-align:left}
+.cap a{text-decoration:none;white-space:nowrap}
+.sq{position:absolute;z-index:1;width:190px;fill:none;stroke-width:15;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.2s cubic-bezier(.6,0,.2,1) forwards,sway 7s 2.2s ease-in-out infinite alternate}
+.a{stroke:var(--o);left:-30px;top:-20px}.b{stroke:var(--g);right:-30px;top:-10px;animation-delay:.3s,2.5s}.c{stroke:var(--r);left:-30px;bottom:50px;animation-delay:.6s,2.8s}.d{stroke:var(--y);right:-30px;bottom:50px;animation-delay:.9s,3.1s}
+@media(max-width:700px){.sq{width:120px;opacity:.9}}
+@keyframes draw{to{stroke-dashoffset:0}}@keyframes sway{to{transform:translate(8px,-10px)}}
+.star{animation:tw 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}@keyframes tw{50%{transform:scale(1.3) rotate(20deg)}}
+section{margin-top:12px}
+.head{padding:90px 4vw 36px;max-width:900px}
+.head h2{font-size:clamp(2rem,5vw,3.6rem);margin-bottom:16px}
+.head p{font-size:1.1rem;color:var(--mute);margin:0;max-width:60ch}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+.bc{border-radius:36px;padding:28px;min-height:230px;display:flex;flex-direction:column;justify-content:space-between;gap:20px}
+.bc small{font-size:.92rem;font-weight:500;max-width:30ch}
+.bc b{font-size:clamp(1.8rem,3.6vw,3rem);line-height:1.05;letter-spacing:-.02em}
+.k1{grid-column:span 5;background:var(--y);color:#17181a}.k2{grid-column:span 7;background:var(--g);color:#fff}
+.k3{grid-column:span 4;background:var(--o);color:#17181a}.k4{grid-column:span 4;background:var(--r);color:#fff}.k5{grid-column:span 4;background:var(--dk);color:#fff}
+.k3 b,.k4 b,.k5 b{font-size:clamp(2.6rem,6vw,4.8rem)}
+@media(max-width:860px){.bc{grid-column:span 12!important;min-height:180px}}
+.cd{display:flex;gap:6px;font-weight:700;font-size:1.05rem}.cd i{font-style:normal;font-weight:500;font-size:.7rem;opacity:.7;margin-right:10px}
+.meaning{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:12px}
+.mc{background:var(--card);border-radius:32px;padding:26px;display:flex;gap:18px;align-items:flex-start;font-weight:500}
+.mc svg{width:54px;flex:none}
+.prog{background:var(--dk);color:#fff;border-radius:48px;padding:12px;display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:12px;align-items:start}
+.side{position:sticky;top:90px;background:var(--o);color:#17181a;border-radius:36px;padding:28px;min-height:340px;display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+.side h2{font-size:clamp(2rem,4vw,2.8rem)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}.pills a{background:rgba(255,255,255,.55);border-radius:99px;padding:8px 14px;font-weight:600;font-size:.82rem;text-decoration:none;transition:.2s}.pills a:hover{background:#fff;transform:translateY(-2px)}
+.days{display:grid;gap:12px}
+.day{background:var(--bg);color:var(--ink);border-radius:36px;padding:28px}
+.day h3{font-size:clamp(1.3rem,2.6vw,1.9rem);margin:6px 0 16px}
+.day .dd{display:inline-block;background:var(--y);color:#17181a;font-weight:700;font-size:.82rem;border-radius:99px;padding:5px 14px}
+.day:nth-child(2) .dd{background:var(--g);color:#fff}.day:nth-child(3) .dd{background:var(--r);color:#fff}.day:nth-child(4) .dd{background:var(--o)}
+.row{padding:16px 0;border-top:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+.row b{display:block;font-size:1rem;margin-bottom:3px}.row span{color:var(--mute);font-size:.92rem}
+@media(max-width:860px){.prog{grid-template-columns:1fr}.side{position:static;min-height:0}}
+.pbox{background:var(--card);border-radius:48px;padding:70px 0 40px;overflow:hidden}
+.pbox .head{padding-top:0}
+.mq{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.track{display:flex;gap:14px;width:max-content;animation:mq 34s linear infinite}.mq:hover .track{animation-play-state:paused}
+.pt{width:200px;height:100px;border-radius:24px;background:var(--bg);display:grid;place-items:center;font-weight:600;font-size:.85rem;color:var(--mute);text-align:center}
+@keyframes mq{to{transform:translateX(-50%)}}
+.pf{display:flex;flex-wrap:wrap;align-items:center;gap:18px;padding:30px 4vw 0}
+.btn{background:var(--ink);color:var(--bg);border-radius:99px;padding:14px 26px;font-weight:600;text-decoration:none;transition:.25s}.btn:hover{transform:translateY(-3px);background:var(--g);color:#fff}
+.pf p{margin:0;color:var(--mute);font-size:.88rem}
+footer{margin-top:12px;background:var(--dk);color:#fff;border-radius:48px 48px 0 0;padding:48px 4vw 36px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px}
+footer h3{font-size:1.5rem}footer .l a{display:block;text-decoration:none;opacity:.8;padding:3px 0}footer .l a:hover{opacity:1}
+footer .c{grid-column:1/-1;opacity:.55;font-size:.85rem}
+.fl{display:flex;align-items:center;gap:12px;margin-bottom:14px}.fl svg{width:56px}
+@media(max-width:700px){footer{grid-template-columns:1fr}}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s,transform .7s}.rv.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.sq{stroke-dashoffset:0}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+
+[hidden]{display:none!important}
+.cabl{background:var(--g);color:#fff;border-radius:99px;padding:10px 18px;font-weight:600;font-size:.85rem;text-decoration:none;white-space:nowrap;transition:.25s}.cabl:hover{background:var(--o);transform:translateY(-2px)}
+@media(max-width:620px){.brand span{display:none}}
+.cv{margin:12px}
+#cabbody{background:var(--card);border-radius:48px;padding:clamp(22px,4vw,48px);min-height:72svh;max-width:1000px;margin:0 auto}
+#cabbody h1{font-size:clamp(1.9rem,5vw,3.2rem);margin:0}
+#cabbody .warn{background:var(--y);color:#17181a;border-radius:24px;padding:14px 20px;font-size:.88rem;font-weight:500;margin-bottom:22px}
+.cwho{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:24px;font-size:.88rem;color:var(--mute)}
+.cc{background:var(--bg);border-radius:32px;padding:26px;margin-top:12px;max-width:760px}.cc.hl{box-shadow:inset 0 0 0 3px var(--o)}
+.ctop{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.ctop h3{margin:0 0 4px;font-size:1.25rem}.mu{margin:2px 0;color:var(--mute);font-size:.88rem}
+.q{background:var(--card);border-radius:18px;padding:12px 16px;font-size:.92rem;margin:14px 0 0}
+.st{display:inline-block;border-radius:99px;padding:7px 16px;font-weight:700;font-size:.8rem;white-space:nowrap}
+.st.pending{background:var(--y);color:#17181a}.st.approved{background:var(--g);color:#fff}.st.rejected{background:var(--r);color:#fff}.st.appeal{background:var(--o);color:#17181a}
+#cabbody label{display:block;font-size:.82rem;font-weight:600;margin:16px 0 6px;color:var(--mute)}
+#cabbody input,#cabbody textarea{width:100%;max-width:520px;font:inherit;color:var(--ink);background:var(--bg);border:2px solid transparent;border-radius:16px;padding:13px 16px}
+#cabbody .cc input,#cabbody .cc textarea{background:var(--card);max-width:none}
+#cabbody input:focus,#cabbody textarea:focus{outline:none;border-color:var(--g)}
+#cabbody input[type=checkbox]{width:20px;margin-top:2px}
+.chk{display:flex!important;gap:10px;align-items:flex-start}
+.tabs2{display:flex;gap:6px;background:var(--bg);border-radius:99px;padding:4px;max-width:340px;margin:10px 0 4px}
+.tabs2 button{flex:1;font:inherit;font-weight:600;border:0;border-radius:99px;padding:10px;background:none;color:var(--ink);cursor:pointer}.tabs2 button[aria-selected=true]{background:var(--g);color:#fff}
+.cbtn{font:inherit;font-weight:600;border:0;border-radius:99px;padding:12px 24px;margin-top:18px;cursor:pointer;background:var(--ink);color:var(--bg);transition:.25s}.cbtn:hover{transform:translateY(-2px)}
+.cbtn.gh{background:none;border:2px solid var(--ink);color:var(--ink);margin:0 0 0 10px;padding:8px 18px}
+.cbtn.ok{background:var(--g);color:#fff}.cbtn.no{background:var(--r);color:#fff}
+.cbs{display:flex;gap:10px;flex-wrap:wrap}
+.cm{min-height:1.4em;font-size:.88rem;font-weight:500;color:var(--r);margin:12px 0 0}.cm.ok{color:var(--g)}
+.flt{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.flt button{font:inherit;font-weight:600;font-size:.82rem;border:2px solid color-mix(in srgb,var(--ink) 18%,transparent);background:none;color:var(--ink);border-radius:99px;padding:8px 16px;cursor:pointer}
+.flt button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.cc{animation:pop .45s both}@keyframes pop{from{opacity:0;transform:translateY(14px)}}
+
+#cabbody{max-width:1180px}
+#cabbody select{width:100%;font:inherit;color:var(--ink);background:var(--card);border:2px solid transparent;border-radius:16px;padding:13px 16px}
+#cabbody select:focus{outline:none;border-color:var(--g)}
+.cab{display:grid;grid-template-columns:270px 1fr;gap:12px;align-items:start}
+@media(max-width:860px){.cab{grid-template-columns:1fr}}
+.cab .cc{max-width:none;margin-top:0}.cab h2{margin:0 0 14px;font-size:1.6rem}
+.sd{display:flex;flex-direction:column;gap:6px;align-items:flex-start;word-break:break-word}
+.av{width:64px;height:64px;border-radius:50%;background:var(--o);color:#17181a;display:grid;place-items:center;font-weight:700;font-size:1.3rem;margin-bottom:6px}
+.bar{width:100%;height:8px;background:color-mix(in srgb,var(--ink) 12%,transparent);border-radius:9px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:var(--g);transition:width .6s}
+.st.draft{background:color-mix(in srgb,var(--ink) 15%,transparent);color:var(--ink)}
+.nv{width:100%;display:flex;flex-direction:column;margin-top:12px;border-top:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+.nv button,.nv a{font:inherit;font-weight:600;font-size:.92rem;text-align:left;background:none;border:0;color:var(--ink);padding:12px 4px;cursor:pointer;text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+.nv button[aria-current=true]{color:var(--o)}
+.tabs3{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid color-mix(in srgb,var(--ink) 14%,transparent);margin-bottom:18px}
+.tabs3 button{font:inherit;font-weight:600;font-size:.88rem;background:none;border:0;border-bottom:3px solid transparent;color:var(--mute);padding:10px 14px;cursor:pointer;white-space:nowrap}
+.tabs3 button[aria-selected=true]{color:var(--ink);border-color:var(--o)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:2px 18px}.f.w,.chk.w{grid-column:1/-1}
+@media(max-width:700px){.fg{grid-template-columns:1fr}}
+.rq{color:var(--r)}.cks{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px 14px}
+.cks .chk{margin:0!important;font-size:.88rem}.chk{margin:14px 0 0!important}
+.fl{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+#cabbody label.cbtn{display:inline-block;margin:0;padding:10px 20px}
+details{margin-top:12px}summary{cursor:pointer;font-weight:600;font-size:.9rem}
+.dr{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px solid color-mix(in srgb,var(--ink) 10%,transparent);font-size:.86rem}.dr span{color:var(--mute)}.dr b{text-align:right;word-break:break-word}
+.mail{text-align:center;max-width:520px;margin:30px auto}.mail h1{margin:10px 0 14px}
+.env{font-size:4rem;animation:bob 2.4s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-10px) rotate(-6deg)}}
+
+#privbody{background:var(--card);border-radius:48px;padding:clamp(22px,4vw,48px);max-width:900px;margin:0 auto;min-height:60svh}
+#privbody h1{font-size:clamp(1.5rem,4vw,2.3rem);margin:0 0 8px}#privbody h3{margin:28px 0 6px;font-size:1.15rem}
+#privbody p{font-size:.92rem;line-height:1.65;margin:8px 0}#privbody .li{padding-left:14px}
+.chk a,.warn a{color:var(--g);font-weight:600}
+
+.cab{grid-template-columns:270px minmax(0,1fr)}
+.cab>div,.cab .cc{min-width:0}
+@media(max-width:860px){.cab{grid-template-columns:minmax(0,1fr)}}
+.cab .cc{padding:clamp(20px,3vw,34px)}
+.sd{position:sticky;top:90px}
+@media(max-width:860px){.sd{position:static}}
+.tabs3{flex-wrap:wrap;gap:8px;border:0;overflow:visible;margin-bottom:8px}
+.tabs3 button{border:2px solid color-mix(in srgb,var(--ink) 16%,transparent);border-radius:99px;padding:9px 16px;font-size:.85rem;transition:.2s}
+.tabs3 button:hover{border-color:var(--o)}
+.tabs3 button[aria-selected=true]{background:var(--o);border-color:var(--o);color:#17181a}
+.fg{gap:4px 22px;padding-top:6px}
+#cabbody .cc label{font-size:.85rem;margin:20px 0 8px}
+#cabbody .cc input:not([type=checkbox]),#cabbody .cc textarea,#cabbody .cc select{border:2px solid color-mix(in srgb,var(--ink) 12%,transparent);transition:border-color .2s}
+#cabbody .cc input:not([type=checkbox]):hover,#cabbody .cc textarea:hover,#cabbody .cc select:hover{border-color:color-mix(in srgb,var(--ink) 28%,transparent)}
+#cabbody .cc input:focus,#cabbody .cc textarea:focus,#cabbody .cc select:focus{border-color:var(--g)}
+#cabbody input[type=checkbox]{width:19px;height:19px;margin:2px 0 0;accent-color:var(--g);flex:none}
+.cks{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+#cabbody .cks .chk{margin:0!important;border:2px solid color-mix(in srgb,var(--ink) 14%,transparent);border-radius:16px;padding:11px 14px;font-size:.88rem;font-weight:500;color:var(--ink);align-items:center;cursor:pointer;transition:.2s}
+#cabbody .cks .chk:hover{border-color:var(--g)}
+#cabbody .cks .chk:has(input:checked){border-color:var(--g);background:color-mix(in srgb,var(--g) 15%,transparent)}
+#cabbody .chk.w{font-size:.88rem;color:var(--ink);font-weight:500;line-height:1.5}
+.cab form .cbtn[type=submit],.cab .cbtn[data-act=submit],.cab .cbtn[data-act=appeal]{background:var(--g);color:#fff;padding:14px 34px;margin-top:30px}
+.cab form .cbtn[type=submit]:hover{background:var(--o);color:#17181a}
+.cab .cbtn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.cab .cc h2{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:18px}
+.lnk{background:none;border:0;color:var(--g);font:inherit;font-weight:600;font-size:.9rem;cursor:pointer;margin:22px 0 0 18px;padding:0;text-decoration:underline;text-underline-offset:3px}.lnk:hover{color:var(--o)}
+.done{display:flex;gap:14px;align-items:center;background:var(--g);color:#fff;border-radius:24px;padding:16px 22px;margin:0 0 22px;animation:pop .5s both}
+.done svg{width:38px;flex:none}.done path{stroke-dasharray:30;stroke-dashoffset:30;animation:ck .6s .25s forwards}@keyframes ck{to{stroke-dashoffset:0}}
+.done b{display:block;font-size:1.15rem}.done span{font-size:.9rem;opacity:.92}
+.st.needs_info{background:#4f6bed;color:#fff}
+.tb{width:100%;border-collapse:collapse;font-size:.85rem}.tb th{text-align:left;color:var(--mute);font-weight:600;padding:10px 12px;border-bottom:2px solid color-mix(in srgb,var(--ink) 15%,transparent);white-space:nowrap}.tb td{padding:10px 12px;border-bottom:1px solid color-mix(in srgb,var(--ink) 10%,transparent);word-break:break-word}
+.nl{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.nc{background:var(--card);border-radius:32px;padding:26px}.nc small{color:var(--mute);font-weight:600}.nc h3{margin:8px 0 10px;font-size:1.25rem}.nc p{margin:0;white-space:pre-wrap;color:var(--mute)}
+.pt img{max-width:150px;max-height:64px;object-fit:contain}a.pt{text-decoration:none;color:var(--mute);transition:.2s}a.pt:hover{transform:translateY(-3px);color:var(--ink)}
+.lang button{white-space:nowrap}header{min-width:0}.rt{min-width:0}
+a.bc{text-decoration:none;transition:.25s}a.bc:hover{transform:translateY(-4px)}
+@media(max-width:620px){header{margin:8px;padding:7px 8px 7px 14px;gap:6px}.brand svg{width:36px}.rt{gap:5px}.cabl{padding:8px 12px;font-size:.78rem}.tg{width:34px;height:34px;font-size:1rem}.lang{padding:3px}.lang button{padding:6px 9px;font-size:.72rem}}
+@media(max-width:400px){.cabl{padding:7px 10px;font-size:.72rem}.lang button{padding:6px 7px}.brand svg{width:30px}}
+.msgs{height:52vh;min-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:12px;background:var(--card);border-radius:22px;margin:14px 0}
+.m{max-width:82%;align-self:flex-start;background:var(--bg);border-radius:18px;padding:8px 14px}.m.me{align-self:flex-end;background:color-mix(in srgb,var(--g) 24%,transparent)}.m.adm{box-shadow:inset 0 0 0 2px var(--o)}
+.m small{color:var(--mute);font-weight:600;font-size:.72rem}.m p{margin:2px 0 0;white-space:pre-wrap;word-break:break-word}.x{background:none;border:0;color:var(--r);cursor:pointer;font-size:.8rem}
+#cf{display:flex;gap:10px;align-items:center}#cf input{flex:1;max-width:none!important}
+#newsbody{background:var(--card);border-radius:48px;padding:clamp(22px,4vw,48px);max-width:860px;margin:0 auto;min-height:60svh}
+#newsbody h1{font-size:clamp(1.7rem,4.5vw,2.8rem);margin:6px 0 20px}.nh{width:100%;max-height:480px;object-fit:cover;border-radius:28px;margin-bottom:22px}.nt{white-space:pre-wrap;line-height:1.75;font-size:1.02rem}
+a.nc{display:block;text-decoration:none;color:inherit;transition:.25s}a.nc:hover{transform:translateY(-4px)}
+.nc img.ni{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:20px;margin-bottom:14px}.nc .rm{display:block;margin-top:14px;color:var(--g);font-size:.9rem}
+.nt2{padding:14px 16px;border-radius:18px;background:var(--card);margin-top:10px}.nt2.unread{box-shadow:inset 4px 0 0 var(--o);background:color-mix(in srgb,var(--o) 10%,var(--card))}
+.nt2 small{color:var(--mute);font-weight:600}.nt2 b{display:block;margin:4px 0}.nt2 p{margin:0;white-space:pre-wrap;color:var(--mute)}
+.bd{background:var(--r);color:#fff;border-radius:99px;padding:1px 8px;font-size:.72rem;margin-left:8px}
+.cabl{position:relative}.cabl[data-n]::after{content:attr(data-n);position:absolute;top:-7px;right:-7px;background:var(--r);color:#fff;border-radius:99px;font-size:.68rem;min-width:20px;height:20px;display:grid;place-items:center;padding:0 5px;box-shadow:0 0 0 2px var(--card)}
+.toast{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--g);color:#fff;border-radius:18px;padding:12px 18px;font-weight:600;font-size:.9rem;text-decoration:none;box-shadow:0 10px 30px rgba(0,0,0,.25);transform:translateY(160%);transition:transform .4s;max-width:min(360px,calc(100vw - 32px))}.toast.on{transform:none}
+.bell{position:relative;display:grid;place-items:center}.bell.has svg{animation:ring 2.4s ease-in-out infinite;transform-origin:50% 8%}
+@keyframes ring{0%,50%,100%{transform:rotate(0)}10%{transform:rotate(14deg)}20%{transform:rotate(-12deg)}30%{transform:rotate(8deg)}40%{transform:rotate(-4deg)}}
+.bd2{position:absolute;top:-4px;right:-4px;background:var(--r);color:#fff;border-radius:99px;font-size:.66rem;font-weight:700;min-width:18px;height:18px;display:grid;place-items:center;padding:0 4px;box-shadow:0 0 0 2px var(--card)}
+.bp{position:fixed;top:calc(76px + env(safe-area-inset-top,0px));right:12px;width:min(380px,calc(100vw - 24px));max-height:70vh;overflow-y:auto;z-index:40;background:var(--card);border-radius:28px;padding:18px;box-shadow:0 20px 50px rgba(0,0,0,.28);animation:pop .3s both}
+.bh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.bp .nt2{background:var(--bg)}
+@media(max-width:400px){.bell,.tg{width:32px;height:32px}.rt{gap:4px}}
+/* notifications redesign */
+.nt2{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-radius:20px;background:var(--card);margin-top:10px;position:relative;transition:transform .2s}
+.nt2:hover{transform:translateY(-2px)}
+.nt2.unread{box-shadow:none;background:color-mix(in srgb,var(--o) 9%,var(--card))}
+.nt2.unread::after{content:"";position:absolute;top:16px;right:16px;width:9px;height:9px;border-radius:50%;background:var(--o);box-shadow:0 0 0 4px color-mix(in srgb,var(--o) 25%,transparent)}
+.nt2 .nb{min-width:0;flex:1}.nt2 .nb small{color:var(--mute);font-weight:600;font-size:.72rem;letter-spacing:.02em}
+.nt2 .nb b{display:block;margin:2px 0 4px;font-size:.98rem;padding-right:20px}.nt2 .nb p{margin:0;font-size:.88rem;line-height:1.5;word-break:break-word}
+.ni{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--o) 18%,transparent);color:var(--o);font-style:normal}
+.ni svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ni.k-status{background:color-mix(in srgb,var(--g) 18%,transparent);color:var(--g)}
+.nt2 .bar{margin-top:10px;height:6px}
+.bp{border-radius:26px;padding:16px;border:1px solid color-mix(in srgb,var(--ink) 8%,transparent);animation:drop .25s both}.bp .nt2{background:var(--bg)}.bp .nt2.unread{background:color-mix(in srgb,var(--o) 11%,var(--bg))}
+.bh b{font-size:1.1rem}@keyframes drop{from{opacity:0;transform:translateY(-10px) scale(.97)}}
+.nh{display:flex;align-items:center;gap:12px;margin:0 0 6px;font-size:1.3rem}
+.nf .cbtn[data-act=nsend]{background:var(--g);color:#fff;padding:14px 30px}.nf .cbtn[data-act=nsend]:hover{background:var(--o);color:#17181a}
+.toast{display:flex;align-items:center;gap:12px;padding:12px 12px 15px;background:var(--card);color:var(--ink);border-radius:22px;box-shadow:0 18px 48px rgba(0,0,0,.28),0 0 0 1px color-mix(in srgb,var(--ink) 8%,transparent);overflow:hidden;font-weight:500;width:min(380px,calc(100vw - 32px));max-width:none;transform:translateX(125%);opacity:0;transition:transform .5s cubic-bezier(.2,.9,.3,1.15),opacity .3s}
+.toast.on{transform:none;opacity:1}
+.toast .tb{flex:1;min-width:0;display:flex;flex-direction:column}.toast .tb b{font-size:.95rem}
+.toast .tb span{font-size:.82rem;color:var(--mute);font-weight:500;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.toast .tx{flex:none;background:none;border:0;color:var(--mute);cursor:pointer;font-size:.9rem;width:28px;height:28px;border-radius:50%}.toast .tx:hover{background:var(--bg);color:var(--ink)}
+.toast .tp{position:absolute;left:0;bottom:0;height:4px;width:100%;background:linear-gradient(90deg,var(--y),var(--o),var(--r),var(--g));transform-origin:left}
+.toast.on .tp{animation:tp 8s linear forwards}@keyframes tp{to{transform:scaleX(0)}}
+@media(max-width:560px){.toast{left:12px;right:12px;width:auto}}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}.toast.on .tp{animation:none}}
+/* chat redesign */
+.chat{display:grid;grid-template-columns:250px minmax(0,1fr);gap:12px;margin-top:14px;align-items:start}
+.gl{display:flex;flex-direction:column;gap:4px;background:var(--bg);border-radius:24px;padding:10px}
+.gi{display:flex;align-items:center;gap:12px;border:0;background:none;color:var(--ink);font:inherit;text-align:left;padding:10px;border-radius:16px;cursor:pointer;transition:.2s;width:100%}.gi:hover{background:var(--card)}.gi.on{background:var(--card);box-shadow:inset 3px 0 0 var(--o)}
+.gi span{min-width:0}.gi b{display:block;font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gi small{color:var(--mute);font-size:.72rem}
+.ga{width:40px;height:40px;border-radius:14px;color:#fff;display:grid;place-items:center;font-weight:700;font-style:normal;flex:none}.gi.add .ga{background:var(--ink);color:var(--bg);font-size:1.3rem}
+.cp{background:var(--bg);border-radius:24px;padding:14px;min-width:0}
+.ch{display:flex;align-items:center;gap:12px;padding:4px 4px 12px;border-bottom:1px solid color-mix(in srgb,var(--ink) 10%,transparent);flex-wrap:wrap}.ch small{display:block;color:var(--mute);font-size:.74rem}
+.cha{margin-left:auto;display:flex;gap:6px;align-items:center}.cha select{width:auto!important;padding:8px 10px!important;font-size:.78rem}
+.ib{width:38px;height:38px;border-radius:12px;border:0;background:var(--card);cursor:pointer;font-size:1rem;transition:.2s}.ib:hover{background:var(--y);transform:translateY(-2px)}
+.pin{display:flex;gap:8px;align-items:center;background:color-mix(in srgb,var(--y) 30%,var(--card));border-radius:14px;padding:8px 12px;margin-top:10px;font-size:.84rem}.pin span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.m small{display:flex;gap:6px;align-items:center}.ma{margin-left:auto;display:none;gap:2px}.m:hover .ma{display:inline-flex}@media(hover:none){.ma{display:inline-flex}}.m.pn{box-shadow:inset 0 0 0 2px var(--y)}
+.m.call{max-width:94%;align-self:stretch;background:none;padding:0}
+.cc2{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--g),#1f7a49);color:#fff;border-radius:20px;padding:14px 16px;margin-top:4px}.cc2 i{font-size:1.6rem;font-style:normal}.cc2 div{flex:1;min-width:0}.cc2 b{display:block}.cc2 span{font-size:.8rem;opacity:.88}.cc2 .cbtn{margin:0;background:#fff;color:#17181a;text-decoration:none;white-space:nowrap}
+.callf{background:var(--card);border-radius:18px;padding:14px;margin-top:10px}
+.mrow{display:flex;justify-content:space-between;align-items:center;padding:8px 4px;border-bottom:1px solid color-mix(in srgb,var(--ink) 10%,transparent)}
+@media(max-width:760px){.chat{grid-template-columns:minmax(0,1fr)}.gl{flex-direction:row;overflow-x:auto}.gi{width:auto;flex:none}}
+.qr{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.qb{border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);border-radius:99px;padding:7px 14px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit;font-size:.82rem;transition:.2s}.qb:hover{background:var(--y);color:#17181a}
+.gi .bd{margin-left:auto}#sf{display:flex;gap:10px;align-items:center}#sf input{flex:1;max-width:none!important}
+</style></head><body>
+<header>
+ <a class="brand" href="#top"><svg viewBox="0 0 120 92" aria-hidden="true"><path d="M2 52Q42 64 64 40Q74 28 77 8Q76 42 54 62Q30 74 2 70Z" fill="#FF7200"/><circle cx="23" cy="38" r="9" fill="#FF7200"/><path d="M32 64Q64 64 82 38Q85 30 86 24Q82 68 52 78Q40 80 32 78Z" fill="#2B965C"/><circle cx="64" cy="48" r="7" fill="#2B965C"/><path class="star" d="M98 4Q100 14 108 16Q100 18 98 28Q96 18 88 16Q96 14 98 4Z" fill="#FDCC1B"/></svg><span data-i="name"></span></a>
+ <nav><a href="#about" data-i="n1"></a><a href="#program" data-i="n2"></a><a href="#news" data-i="n4" hidden></a><a href="#partners" data-i="n3"></a><a href="#contacts" data-i="n5"></a></nav>
+ <div class="rt"><button id="bell" class="tg bell" type="button" aria-label="Уведомления" aria-haspopup="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span id="hbadge" class="bd2" hidden></span></button><a class="cabl" href="#cabinet" data-i="cab"></a><button id="tg" class="tg" type="button" aria-label="Light / dark theme"></button><div class="lang" role="group" aria-label="Language"><button data-l="ru" aria-pressed="true">RU</button><button data-l="en" aria-pressed="false">EN</button></div></div>
+</header>
+<div id="bellpanel" class="bp" hidden></div>
+<main id="top">
+<div class="hero">
+ <svg class="sq a" viewBox="0 0 200 200"><path pathLength="1" d="M0 150C40 120 70 30 90 20S60 160 110 90 150 -10 180 40"/></svg>
+ <svg class="sq b" viewBox="0 0 200 200"><path pathLength="1" d="M20 0C40 60 110 80 90 140S40 90 100 60 180 90 200 150"/></svg>
+ <svg class="sq c" viewBox="0 0 200 200"><path pathLength="1" d="M0 60C60 100 110 40 80 90S20 130 90 140 140 190 200 170"/></svg>
+ <svg class="sq d" viewBox="0 0 200 200"><path pathLength="1" d="M200 30C150 30 90 90 150 130S110 160 60 150 10 200 0 190"/></svg>
+ <div class="ring"></div><div class="dot"></div>
+ <h1 data-i="slogan"></h1>
+ <div class="cap"><span data-i="cap"></span><a href="#about"><span data-i="more"></span> →</a></div>
+</div>
+<section id="about">
+ <div class="head rv"><h2 data-i="aboutT"></h2><p data-i="aboutP"></p></div>
+ <div class="bento rv">
+  <div class="bc k1"><small data-i="d4"></small><div><b data-i="dates"></b><div class="cd" id="cd" style="margin-top:12px"></div></div></div>
+  <div class="bc k2"><small data-i="plc"></small><b data-i="place"></b></div>
+  <div class="bc k3"><small data-i="st2"></small><b>14–18</b></div>
+  <div class="bc k4"><small data-i="st3"></small><b>100</b></div>
+  <div class="bc k5"><small data-i="st4"></small><b>1000+</b></div>
+ </div>
+ <div class="meaning rv">
+  <div class="mc"><svg viewBox="0 0 54 54"><circle cx="18" cy="22" r="10" fill="#FF7200"/><circle cx="36" cy="22" r="10" fill="#2B965C"/><path d="M4 48a14 12 0 0 1 28 0Z" fill="#FF7200"/><path d="M22 48a14 12 0 0 1 28 0Z" fill="#2B965C" opacity=".9"/></svg><span data-i="m1"></span></div>
+  <div class="mc"><svg viewBox="0 0 54 54"><path d="M4 50Q40 50 48 8Q50 44 14 50Z" fill="#2B965C"/><path d="M20 12l8-8 8 8M28 4v18" stroke="#FF7200" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i="m2"></span></div>
+  <div class="mc"><svg viewBox="0 0 54 54"><path class="star" d="M27 3Q30 22 51 27Q30 32 27 51Q24 32 3 27Q24 22 27 3Z" fill="#FDCC1B"/></svg><span data-i="m3"></span></div>
+ </div>
+</section>
+<section id="program">
+ <div class="prog">
+  <div class="side"><div><h2 data-i="n2"></h2></div><div class="pills" id="pills"></div></div>
+  <div class="days" id="days"></div>
+ </div>
+</section>
+<section id="news" hidden><div class="head"><h2 data-i="n4"></h2></div><div class="nl" id="newsbox"></div></section>
+<section id="partners">
+ <div class="pbox rv">
+  <div class="head"><h2 data-i="n3"></h2><p data-i="partP"></p></div>
+  <div class="mq" aria-label="Partners"><div class="track" id="track"></div></div>
+  <div class="pf"><a class="btn" href="#partners" data-i="join"></a><p data-i="note"></p></div>
+ </div>
+</section>
+<section id="contacts"><div class="head rv"><h2 data-i="n5"></h2></div><div class="bento rv"><a class="bc k2" href="tel:+79962695996" style="grid-column:span 6"><small data-i="deptL"></small><b>+7 (996) 269-59-96</b></a><a class="bc k3" href="mailto:legal@nokimol.ru" style="grid-column:span 6"><small data-i="deptL"></small><b style="font-size:clamp(1.4rem,3vw,2.3rem)">legal@nokimol.ru</b></a></div></section>
+</main>
+<div id="cabview" class="cv" hidden><div id="cabbody"></div></div>
+<div id="privview" class="cv" hidden><div id="privbody"></div></div>
+<div id="newsview" class="cv" hidden><div id="newsbody"></div></div>
+<footer>
+ <div><div class="fl"><svg viewBox="0 0 120 92" aria-hidden="true"><path d="M2 52Q42 64 64 40Q74 28 77 8Q76 42 54 62Q30 74 2 70Z" fill="#FF7200"/><circle cx="23" cy="38" r="9" fill="#FF7200"/><path d="M32 64Q64 64 82 38Q85 30 86 24Q82 68 52 78Q40 80 32 78Z" fill="#2B965C"/><circle cx="64" cy="48" r="7" fill="#2B965C"/><path class="star" d="M98 4Q100 14 108 16Q100 18 98 28Q96 18 88 16Q96 14 98 4Z" fill="#FDCC1B"/></svg><h3 data-i="slogan"></h3></div><p data-i="foot" style="opacity:.8"></p></div>
+ <div class="l"><a href="#about" data-i="n1"></a><a href="#program" data-i="n2"></a><a href="#news" data-i="n4" hidden></a><a href="#partners" data-i="n3"></a><a href="#contacts" data-i="n5"></a></div>
+ <div class="l"><a href="#cabinet" data-i="cab"></a><a href="#privacy" data-i="pol"></a></div>
+ <div class="c">© 2026 <span data-i="name"></span></div>
+</footer>
+<script>
+const T={
+ru:{name:"Международный Молодежный Форум НОКИ",n1:"О форуме",n2:"Программа",n3:"Партнёры",slogan:"От мечты — к действиям!",dates:"17 — 20 декабря 2026",age:"Участники от 14 до 18 лет",place:"Нижний Тагил, Свердловская область",
+aboutT:"О форуме",aboutP:"Четырёхдневный форум для обмена опытом и коллективного решения проблем движения, масштабирования сообщества НОКИ и развития творческих, креативных и управленческих навыков участников.",
+st1:"дня форума",st2:"лет — возраст участников",st3:"иногородних участников по гостевой программе",st4:"участников из Нижнего Тагила и ближайших территорий по программе «Горожане»",
+m1:"Работа в команде — главный смысл форума.",m2:"Стремление идти вверх и достигать поставленных целей.",m3:"Звезда — символ мечты, поставленных целей и неизведанных просторов.",
+partP:"Форум создаётся вместе с партнёрами, которые поддерживают молодёжные инициативы. 19 декабря — партнёрская зона: стенды, питчи проектов и новые коллаборации.",note:"Логотипы партнёров будут добавлены после согласования.",foot:"Нижний Тагил · 17–20 декабря 2026",
+pt:"Ваш логотип",cd:["дней","часов","минут","секунд"],tab:"День"},
+en:{name:"International Youth Forum NOKI",n1:"About",n2:"Programme",n3:"Partners",slogan:"From dreams to action!",dates:"December 17–20, 2026",age:"Participants aged 14–18",place:"Nizhny Tagil, Sverdlovsk Region",
+aboutT:"About the forum",aboutP:"A four-day forum for sharing experience and solving the movement's challenges together, growing the NOKI community and developing participants' creative and leadership skills.",
+st1:"days of the forum",st2:"years — participants' age",st3:"guest participants from other cities",st4:"participants from Nizhny Tagil and nearby areas in the “Citizens” programme",
+m1:"Teamwork is the core meaning of the forum.",m2:"The drive to move upward and reach set goals.",m3:"The star symbolises dreams, goals and uncharted horizons.",
+partP:"The forum is built together with partners who support youth initiatives. On December 19 the partner zone offers stands, project pitches and new collaborations.",note:"Partner logos will be added once confirmed.",foot:"Nizhny Tagil · December 17–20, 2026",
+pt:"Your logo",cd:["days","hours","min","sec"],tab:"Day"}};
+const P={
+ru:[["17 декабря. День приезда",[["Заезд и регистрация","Бейджи и пакет участника (мерч)"],["Знакомство в отрядах","Участники знакомятся с командами-отрядами и соотрядниками"],["Торжественное открытие","Приветствия руководителя НОКИ, партнёров и гостей"],["Пленарная сессия «5 лет: главные достижения и вызовы»","Доклады спикеров о пути организации"],["Интерактивная сессия «Карта 5 лет»","События, города, имена — история НОКИ"]]],
+["18 декабря. День смыслов и открытий",[["Панельная дискуссия «Миссия и ценности НОКИ»","Как ценности движения проявляются в работе"],["Параллельные треки","«Медиа и продвижение», «Волонтёрство и сообщества», «Партнёрства и ресурсы»"],["Мастермайнд-группы","Свои проекты и обратная связь экспертов и коллег"],["Творческий вечер, открытый микрофон","Мини-презентации проектов, выступления, сборы отрядов"]]],
+["19 декабря. Финальный день",[["Мини-лекторий «Тренды молодёжной повестки»","Эксперты о трендах и о том, как встроить в них свой проект"],["Партнёрская зона","Стенды партнёров, питчи проектов, сбор контактов"],["Церемония закрытия «5 лет — вместе!»","Награждение, благодарности, подарки, концерт"],["Тематическая отрядная свечка","Отрядный круг: впечатления, анкеты, подарки и эмоции"]]],
+["20 декабря. День разъезда",[["Мини-сессия «Что я забираю с собой»","Главный вывод, действие на месяц, контакт для сотрудничества и желание на 2027 год"],["Открытие фотовыставки к 5-летию НОКИ","Лучшие фотографии форума на главной площадке"],["Сбор вещей, прощание и отъезд","Организация логистики отъезда"]]]],
+en:[["December 17. Arrival day",[["Check-in and registration","Badges and participant pack (merch)"],["Meet your squad","Teams get to know each other and share about themselves"],["Opening ceremony","Welcome words from NOKI's leader, partners and guests"],["Plenary “5 years: achievements and challenges”","Short talks on the organisation's journey"],["Interactive session “5-year map”","Key events, cities and names — the story of NOKI"]]],
+["December 18. Day of meanings and discoveries",[["Panel “NOKI's mission and values”","How the movement's values show up in practice"],["Parallel tracks","Media & promotion, Volunteering & communities, Partnerships & resources"],["Mastermind groups","Bring your project, get feedback from experts and peers"],["Creative evening, open mic","Project mini-pitches, performances, squad gatherings"]]],
+["December 19. Final day",[["Mini-lectures “Youth agenda trends”","Experts on trends and how to fit your project in"],["Partner zone","Partner stands, project pitches, networking"],["Closing ceremony “5 years — together!”","Awards, thanks, gifts and a concert"],["Squad candle evening","Closing circle: impressions, feedback forms, gifts"]]],
+["December 20. Departure day",[["Mini-session “What I take with me”","One key takeaway, one action for the month, one contact, one wish for 2027"],["Photo exhibition for NOKI's 5th anniversary","The best forum photos at the main venue"],["Packing, farewell and departure","Departure logistics"]]]]};
+const X={
+ru:{cap:"Что такое форум НОКИ и как в нём участвовать",more:"Читать",plc:"Место проведения",d4:"4 дня форума",join:"Стать партнёром"},
+en:{cap:"What the NOKI forum is and how to take part",more:"Read",plc:"Venue",d4:"4 days of the forum",join:"Become a partner"}};
+let L="ru";
+try{const s=localStorage.getItem("noki-lang");if(s&&T[s])L=s}catch(e){}
+const $=s=>document.querySelector(s);
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("on");io.unobserve(x.target)}}),{threshold:.12});
+function split(s){let i=s.indexOf(". ");if(i<0)i=s.indexOf(" ");return[s.slice(0,i).replace(/\.$/,""),s.slice(i).replace(/^\.?\s+/,"")]}
+function render(){
+ const t=T[L],x=X[L];
+ document.documentElement.lang=L;document.title=t.name;
+ document.querySelectorAll("[data-i]").forEach(e=>e.textContent=t[e.dataset.i]??x[e.dataset.i]);
+ document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===L));
+ const D=P[L].map(d=>split(d[0]));
+ $("#pills").innerHTML=D.map((d,i)=>`<a href="#d${i}">${d[0]}</a>`).join("");
+ $("#days").innerHTML=P[L].map((d,i)=>`<article class="day rv" id="d${i}"><span class="dd">${D[i][0]}</span><h3>${D[i][1]}</h3>${d[1].map(r=>`<div class="row"><b>${r[0]}</b><span>${r[1]}</span></div>`).join("")}</article>`).join("");
+ pubRender();
+ tick();cr();
+ document.querySelectorAll(".rv:not(.on)").forEach(e=>io.observe(e));
+}
+function tick(){
+ const ms=Math.max(0,new Date("2026-12-17T09:00:00+05:00")-Date.now());
+ const v=[Math.floor(ms/864e5),Math.floor(ms/36e5)%24,Math.floor(ms/6e4)%60,Math.floor(ms/1e3)%60];
+ $("#cd").innerHTML=v.map((n,i)=>`${String(n).padStart(2,"0")}<i>${T[L].cd[i]}</i>`).join("");
+}
+document.addEventListener("click",e=>{const l=e.target.closest("[data-l]");if(l){L=l.dataset.l;try{localStorage.setItem("noki-lang",L)}catch(_){}render()}});
+/* === Supabase: вставьте адрес проекта и ключ anon. Пусто = демо-режим (данные только в этом браузере) === */
+const CFG={url:"https://beaaimvahulxfwdapmqm.supabase.co",key:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJlYWFpbXZhaHVseGZ3ZGFwbXFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE0NDk2ODAsImV4cCI6MjEwNzAyNTY4MH0.TIkpGoIO_twvbC5-ipuNERT30QFFEcCf36cd7MivFf8"};
+const C={
+ru:{cab:"Личный кабинет",si:"Войти",su:"Регистрация",em:"Email",pw:"Пароль (от 8 символов)",out:"Выйти",adm:"Администратор",profile:"Профиль",myapp:"Моя заявка",prog:"Программа форума",t_reg:"Регистрационные данные",t_gen:"Общие данные",t_doc:"Личные документы",t_con:"Контактные данные",t_act:"Сфера деятельности",save:"Сохранить",saved:"Сохранено ✓",fill:"Профиль заполнен на",event:"Международный молодёжный форум НОКИ · 17–20 декабря 2026",draft:"Черновик",pending:"На рассмотрении",approved:"Одобрена",rejected:"Отклонена",appeal:"Апелляция",n_draft:"Заполните профиль и подайте заявку.",n_pending:"Заявка передана организаторам. Решение появится здесь.",n_approved:"Поздравляем, вы участник форума! Увидимся 17 декабря в Нижнем Тагиле.",n_rejected:"Заявка отклонена. Если вы не согласны, подайте апелляцию.",n_appeal:"Апелляция подана и ожидает решения организаторов.",needFill:"Не заполнено:",submit:"Подать заявку",sentOn:"Подана",cmt:"Комментарий организаторов",apl:"Апелляция",aph:"Почему вы не согласны с решением?",appealBtn:"Подать апелляцию",cmtPh:"Комментарий участнику (необязательно)",approve:"Одобрить",reject:"Отклонить",all:"Все",none:"Заявок нет",mailT:"Подтвердите эл. почту",mailP:"Вам придёт письмо в течение 10 минут. Перейдите по ссылке из письма, затем войдите в кабинет.",resend:"Отправить письмо ещё раз",resent:"Письмо отправлено повторно.",back:"Вернуться ко входу",choose:"Выбрать файл",big:"Файл больше 3 МБ.",open:"Открыть",anketa:"Анкета участника",bad:"Ошибка: ",age:"Участникам должно быть от 14 до 18 лет на дату форума.",need:"Введите текст апелляции.",demo:"Демо-режим: данные хранятся только в этом браузере. Для администратора зарегистрируйтесь с email admin@demo. Чтобы кабинет работал для всех — подключите Supabase.",demoMail:"Демо: письмо не отправляется. Вернитесь ко входу и войдите.",demoFile:"В демо-режиме файлы не сохраняются.",rate:"Слишком много писем за короткое время. Подождите около часа или подключите свой SMTP в Supabase.",notconf:"Email ещё не подтверждён. Перейдите по ссылке из письма.",badlogin:"Неверный email или пароль.",autoc:"В настройках Supabase отключено подтверждение почты, поэтому письмо не отправляется. Можно сразу войти.",pol:"Политика обработки данных",privT:"Политика в отношении обработки персональных данных",privOp:"Оператор: Новое общество креативных инициатив · legal@nokimol.ru",privNote:"",privNF:"Текст политики не найден. Создайте файл privacy.txt рядом с index.html и вставьте в него текст политики.",back2:"Назад",agreePd:'Я ознакомился(-ась) с <a href="#privacy">Политикой обработки персональных данных</a> и даю согласие на обработку персональных данных (для участников до 18 лет — с согласия законного представителя)',agreeMail:"Согласен(-на) на получение информационных писем",needAgree:"Для регистрации необходимо согласие на обработку персональных данных.",forgot:"Забыли пароль?",fT:"Восстановление пароля",fP:"Укажите email — мы отправим ссылку для создания нового пароля.",fSend:"Отправить ссылку",fOk:"Если этот email зарегистрирован, письмо со ссылкой придёт в течение 10 минут.",newT:"Новый пароль",newP:"Придумайте новый пароль (от 8 символов).",pw2:"Повторите пароль",mism:"Пароли не совпадают.",setBtn:"Сохранить пароль",pwOk:"Пароль изменён. Теперь войдите.",demoRec:"Демо: письмо не отправляется, поэтому форма нового пароля показана сразу.",sentOk:"Успешно! Отправлено!",subApp:"Заявка передана организаторам. Статус появится здесь.",subAppeal:"Апелляция отправлена организаторам.",subMail:"Письмо со ссылкой отправлено на ваш email.",needs_info:"Ждёт дополнение",n_needs_info:"Организаторы просят дополнить или исправить анкету. Прочитайте комментарий, внесите изменения и отправьте заявку повторно.",resubmit:"Отправить повторно",needCmt:"Укажите в комментарии, что нужно исправить.",a_apps:"Заявки",a_contacts:"Контакты",a_partners:"Партнёры",a_news:"Новости",news:"Новости",refresh:"Обновить",newAppeals:"Новых апелляций:",search:"Поиск",copyMail:"Скопировать email",csv:"Скачать CSV",copied:"Скопировано",ph:"Телефон",gph:"Телефон представителя",gml:"Email представителя",acct:"Аккаунтов:",pname:"Название",purl:"Ссылка (https://…)",plogo:"Ссылка на логотип",psort:"Порядок",logoUp:"Загрузить логотип",add:"Добавить",del:"Удалить",sure:"Точно удалить?",badUrl:"Ссылка должна начинаться с http:// или https://",ntitle:"Заголовок",nbody:"Текст новости",pub:"Опубликовать",newItem:"Новая запись",rate60:"Письмо можно запросить повторно через минуту.",demoNo:"Демо: этот email не зарегистрирован в этом браузере (в демо письма не отправляются).",contactsT:"Контакты",deptL:"Юридический отдел и отдел по работе с участниками",notes:"Уведомления",a_notes:"Уведомления",noNotes:"Уведомлений пока нет.",nStatus:"Статус заявки",audL:"Кому",aud_all:"Все участники",aud_draft:"Без поданной заявки",aud_one:"Одному участнику (по email)",nText:"Текст уведомления",mailChk:"Отправить также на email",nsendBtn:"Отправить уведомление",needEmail:"Укажите email получателя.",nSent:"Уведомление получили: {n}.",unreadN:"Непрочитанных уведомлений: {n}",bellLogin:"Войдите, чтобы видеть уведомления.",createN:"Создать",allNotes:"Все уведомления",enablePush:"Включить всплывающие уведомления в браузере",sentH:"Отправленные уведомления",recip:"Получателей",readBy:"прочитали",noSent:"Пока ничего не отправлено.",newNote:"Новое уведомление",autoG:"Все одобренные",customG:"Группа",newG:"Новая группа",noGroups:"Групп пока нет.",autoNote:"Сюда автоматически добавлены все одобренные участники",muteFor:"Мут на",min:"мин",hour:"час",hours:"часа",forever:"навсегда",newCall:"Создать созвон",members:"Участники группы",muted:"Организаторы временно отключили вам возможность писать в чат.",pin:"Закрепить",mute:"Мут",callTitle:"Название созвона",callUrl:"Ссылка (необязательно — иначе создам комнату)",callAt:"Начало (необязательно)",startCall:"Создать и отправить в чат",joinCall:"Присоединиться",defCall:"Созвон",gname:"Название группы",gmembers:"Участники",create:"Создать",cancel:"Отмена",noMem:"Подходящих участников пока нет.",addMember:"Добавить участника",support:"Поддержка",a_support:"Поддержка",supportT:"Служба поддержки",supportNote:"Задайте вопрос — ответ придёт сюда и в уведомления",supportName:"Поддержка",you:"Вы",supEmpty:"Напишите нам — поможем с заявкой, входом или любым вопросом.",closeT:"Закрыть обращение",reopen:"Открыть снова",closedNote:"Обращение закрыто. Напишите новое сообщение, чтобы открыть его снова.",q1:"Вопрос по заявке",q2:"Не могу войти",q3:"Другой вопрос",fOpen:"Открытые",fClosed:"Закрытые",noTickets:"Обращений нет.",newTicket:"Новое обращение в поддержку",supReply:"Ответ службы поддержки",a_admins:"Админы",a_chat:"Чат",chat:"Чат участников",chatNote:"Чат доступен участникам с одобренной заявкой и организаторам. Пожалуйста, будьте вежливы.",noMsg:"Сообщений пока нет. Напишите первым!",msgPh:"Сообщение…",sendBtn:"Отправить",roleL:"Роль",roleAdmin:"Админ",roleUser:"Участник",makeAdm:"Сделать админом",rmAdm:"Снять права",selfAdm:"Нельзя снять права с самого себя.",chatNo:"Чат доступен только участникам с одобренной заявкой.",readMore:"Читать →",newsBack:"К новостям",noNews:"Новость не найдена.",nimg:"Фото (ссылка)",nup:"Загрузить фото",badImg:"Ссылка на фото должна начинаться с http:// или https://",confirm:"Подтвердить?"},
+en:{cab:"My account",si:"Sign in",su:"Sign up",em:"Email",pw:"Password (8+ characters)",out:"Sign out",adm:"Admin",profile:"Profile",myapp:"My application",prog:"Forum programme",t_reg:"Registration data",t_gen:"General data",t_doc:"Personal documents",t_con:"Contact details",t_act:"Field of activity",save:"Save",saved:"Saved ✓",fill:"Profile completed:",event:"NOKI International Youth Forum · December 17–20, 2026",draft:"Draft",pending:"Under review",approved:"Approved",rejected:"Rejected",appeal:"Appeal",n_draft:"Complete your profile and submit the application.",n_pending:"Your application is with the organisers. The decision will appear here.",n_approved:"Congratulations, you are in! See you on December 17 in Nizhny Tagil.",n_rejected:"Your application was rejected. If you disagree, submit an appeal.",n_appeal:"Your appeal is submitted and awaits the organisers' decision.",needFill:"Missing:",submit:"Submit application",sentOn:"Submitted",cmt:"Organisers' comment",apl:"Appeal",aph:"Why do you disagree with the decision?",appealBtn:"Submit appeal",cmtPh:"Comment for the participant (optional)",approve:"Approve",reject:"Reject",all:"All",none:"No applications",mailT:"Confirm your email",mailP:"A message will arrive within 10 minutes. Follow the link in it, then sign in.",resend:"Resend email",resent:"Email sent again.",back:"Back to sign in",choose:"Choose file",big:"File is larger than 3 MB.",open:"Open",anketa:"Participant profile",bad:"Error: ",age:"Participants must be 14–18 on the forum date.",need:"Enter the appeal text.",demo:"Demo mode: data stays in this browser only. For the admin view sign up with admin@demo. Connect Supabase to make it work for everyone.",demoMail:"Demo: no email is sent. Go back and sign in.",demoFile:"Files are not saved in demo mode.",rate:"Too many emails in a short time. Wait about an hour or set up your own SMTP in Supabase.",notconf:"Email is not confirmed yet. Follow the link in the email.",badlogin:"Wrong email or password.",autoc:"Email confirmation is turned off in Supabase, so no email is sent. You can sign in right away.",pol:"Privacy policy",privT:"Personal data processing policy",privOp:"Operator: Новое общество креативных инициатив · legal@nokimol.ru",privNote:"The policy is published in Russian.",privNF:"Policy text not found. Create privacy.txt next to index.html and paste the policy text into it.",back2:"Back",agreePd:'I have read the <a href="#privacy">Personal Data Processing Policy</a> and consent to the processing of my personal data (under 18 — with a legal guardian’s consent)',agreeMail:"I agree to receive informational emails",needAgree:"Consent to personal data processing is required to sign up.",forgot:"Forgot password?",fT:"Password recovery",fP:"Enter your email and we will send a link to create a new password.",fSend:"Send link",fOk:"If this email is registered, a message with a link will arrive within 10 minutes.",newT:"New password",newP:"Create a new password (8+ characters).",pw2:"Repeat password",mism:"Passwords do not match.",setBtn:"Save password",pwOk:"Password changed. Now sign in.",demoRec:"Demo: no email is sent, so the new password form is shown right away.",sentOk:"Success! Sent!",subApp:"Your application was sent to the organisers. The status will appear here.",subAppeal:"Your appeal was sent to the organisers.",subMail:"An email with a link was sent to your address.",needs_info:"Needs more info",n_needs_info:"The organisers ask you to complete or correct your profile. Read the comment, make changes and resubmit the application.",resubmit:"Resubmit",needCmt:"Write in the comment what needs to be fixed.",a_apps:"Applications",a_contacts:"Contacts",a_partners:"Partners",a_news:"News",news:"News",refresh:"Refresh",newAppeals:"New appeals:",search:"Search",copyMail:"Copy emails",csv:"Download CSV",copied:"Copied",ph:"Phone",gph:"Guardian phone",gml:"Guardian email",acct:"Accounts:",pname:"Name",purl:"Link (https://…)",plogo:"Logo link",psort:"Order",logoUp:"Upload logo",add:"Add",del:"Delete",sure:"Really delete?",badUrl:"Link must start with http:// or https://",ntitle:"Title",nbody:"News text",pub:"Publish",newItem:"New post",rate60:"You can request another email in a minute.",demoNo:"Demo: this email is not registered in this browser (no emails are sent in the demo).",contactsT:"Contacts",deptL:"Legal department and participant relations department",notes:"Notifications",a_notes:"Notifications",noNotes:"No notifications yet.",nStatus:"Application status",audL:"To",aud_all:"All participants",aud_draft:"No submitted application",aud_one:"One participant (by email)",nText:"Notification text",mailChk:"Also send by email",nsendBtn:"Send notification",needEmail:"Enter the recipient email.",nSent:"Recipients: {n}.",unreadN:"Unread notifications: {n}",bellLogin:"Sign in to see your notifications.",createN:"Create",allNotes:"All notifications",enablePush:"Enable browser pop-up notifications",sentH:"Sent notifications",recip:"Recipients",readBy:"read",noSent:"Nothing sent yet.",newNote:"New notification",autoG:"All approved",customG:"Group",newG:"New group",noGroups:"No groups yet.",autoNote:"All approved participants are added here automatically",muteFor:"Mute for",min:"min",hour:"hour",hours:"hours",forever:"forever",newCall:"Create call",members:"Group members",muted:"Organisers have temporarily disabled your posting in the chat.",pin:"Pin",mute:"Mute",callTitle:"Call title",callUrl:"Link (optional — otherwise a room is created)",callAt:"Start time (optional)",startCall:"Create and post to chat",joinCall:"Join",defCall:"Call",gname:"Group name",gmembers:"Members",create:"Create",cancel:"Cancel",noMem:"No suitable participants yet.",addMember:"Add participant",support:"Support",a_support:"Support",supportT:"Support service",supportNote:"Ask a question — the reply will arrive here and in notifications",supportName:"Support",you:"You",supEmpty:"Write to us — we will help with your application, login or any question.",closeT:"Close ticket",reopen:"Reopen",closedNote:"The ticket is closed. Send a new message to reopen it.",q1:"Question about my application",q2:"I cannot sign in",q3:"Another question",fOpen:"Open",fClosed:"Closed",noTickets:"No tickets.",newTicket:"New support request",supReply:"Support replied",a_admins:"Admins",a_chat:"Chat",chat:"Participants chat",chatNote:"The chat is open to participants with an approved application and to organisers. Please be polite.",noMsg:"No messages yet. Be the first to write!",msgPh:"Message…",sendBtn:"Send",roleL:"Role",roleAdmin:"Admin",roleUser:"Participant",makeAdm:"Make admin",rmAdm:"Remove admin",selfAdm:"You cannot remove your own admin rights.",chatNo:"The chat is only for participants with an approved application.",readMore:"Read →",newsBack:"Back to news",noNews:"News not found.",nimg:"Photo (link)",nup:"Upload photo",badImg:"Photo link must start with http:// or https://",confirm:"Confirm?"}};
+for(const l in X){X[l].cab=C[l].cab;X[l].pol=C[l].pol;X[l].n4=C[l].news;X[l].n5=C[l].contactsT;X[l].deptL=C[l].deptL}
+const LI=()=>({ru:0,en:1}[L]);
+const tx=s=>{const p=s.split("|");return p[LI()]||p[0]};
+const op=o=>{const i=o.indexOf(";");return[o.slice(0,i),tx(o.slice(i+1))]};
+const LG=["ru;Русский|Russian","en;Английский|English","zh;Китайский|Chinese","other;Другой|Other"];
+const LV=["0;Нет|None","1;Базовый|Basic","2;Средний|Intermediate","3;Продвинутый|Advanced","4;Носитель|Native"];
+const F={
+reg:[
+{k:"last_ru",t:"text",r:1,l:"Фамилия (на русском)|Last name (Russian)"},
+{k:"last_en",t:"text",r:1,l:"Фамилия (латиницей, заполняется автоматически)|Last name (Latin, filled automatically)"},
+{k:"first_ru",t:"text",r:1,l:"Имя (на русском)|First name (Russian)"},
+{k:"first_en",t:"text",r:1,l:"Имя (латиницей, заполняется автоматически)|First name (Latin, filled automatically)"},
+{k:"mid_ru",t:"text",l:"Отчество (на русском)|Patronymic (Russian)"},
+{k:"mid_en",t:"text",l:"Отчество (латиницей, заполняется автоматически)|Patronymic (Latin, filled automatically)"},
+{k:"birth",t:"date",r:1,min:"2007-12-18",max:"2012-12-17",l:"Дата рождения (14–18 лет на 17.12.2026)|Date of birth (14–18 on 17.12.2026)"},
+{k:"gender",t:"select",r:1,l:"Пол|Gender",o:["m;Мужской|Male","f;Женский|Female"]},
+{k:"citizen",t:"text",r:1,l:"Гражданство|Citizenship"},
+{k:"country",t:"text",r:1,l:"Страна проживания|Country of residence"},
+{k:"region",t:"text",r:1,l:"Регион проживания|Region of residence"},
+{k:"phone",t:"tel",r:1,l:"Номер телефона|Phone"},
+{k:"c_pd",t:"check",r:1,w:1,s:"Согласие на обработку данных|Data processing consent",l:"Даю согласие на обработку персональных данных и ознакомлен(а) с <a href='#privacy'>Политикой обработки персональных данных</a> (для участников до 18 лет — с согласия законного представителя)|I consent to personal data processing and have read the <a href='#privacy'>Privacy Policy</a> (under 18 — with a legal guardian's consent)"},
+{k:"c_mail",t:"check",w:1,l:"Даю согласие на получение рассылок|I agree to receive mailings"}],
+gen:[
+{k:"photo",t:"file",r:1,w:1,acc:"image/jpeg,image/png",l:"Фотография для бейджа (jpeg/png до 3 МБ, лицо анфас, контрастный фон)|Badge photo (jpeg/png up to 3 MB, face forward, plain background)"},
+{k:"city",t:"text",r:1,l:"Город проживания|City of residence"},
+{k:"addr",t:"text",r:1,l:"Адрес проживания|Home address"},
+{k:"nat",t:"select",r:1,l:"Родной язык|Native language",o:LG},
+{k:"corr",t:"select",r:1,l:"Язык переписки|Correspondence language",o:LG}],
+doc:[
+{k:"snils",t:"text",l:"СНИЛС (по желанию)|SNILS (optional)"},
+{k:"inn",t:"text",l:"ИНН (по желанию)|Tax ID (optional)"},
+{k:"dtype",t:"select",l:"Тип документа, удостоверяющего личность|ID document type",o:["rf;Паспорт РФ|Russian passport","foreign;Иностранный паспорт|Foreign passport","birth;Свидетельство о рождении|Birth certificate"]},
+{k:"dser",t:"text",l:"Серия документа|Document series"},
+{k:"dnum",t:"text",l:"Номер документа|Document number"},
+{k:"dissue",t:"date",l:"Дата выдачи|Issue date"},
+{k:"bplace",t:"text",w:1,l:"Место рождения|Place of birth"},
+{k:"scan",t:"file",w:1,acc:"image/jpeg,image/png,application/pdf",l:"Скан документа (jpeg/png/pdf до 3 МБ)|Document scan (jpeg/png/pdf up to 3 MB)"}],
+con:[
+{k:"max",t:"url",l:"Профиль в MAX (https://max.ru/ник)|MAX profile (https://max.ru/nick)"},
+{k:"vk",t:"url",l:"Профиль ВКонтакте (https://vk.ru/ник)|VK profile (https://vk.ru/nick)"},
+{k:"tg",t:"url",l:"Telegram (https://t.me/ник)|Telegram (https://t.me/nick)"},
+{k:"g_fio",t:"text",r:1,l:"ФИО законного представителя|Legal guardian's full name"},
+{k:"g_rel",t:"select",r:1,l:"Степень родства|Relationship",o:["mother;Мать|Mother","father;Отец|Father","guard;Опекун|Guardian","other;Другое|Other"]},
+{k:"g_phone",t:"tel",r:1,l:"Телефон законного представителя|Guardian's phone"},
+{k:"g_mail",t:"email",r:1,l:"Email законного представителя|Guardian's email"}],
+act:[
+{k:"status",t:"checks",r:1,w:1,l:"Статус|Status",o:["school;Школьник|School student","college;Студент колледжа|College student","uni;Студент вуза|University student","work;Работаю|Working","nowork;Не работаю|Not working"]},
+{k:"dirs",t:"checks",w:1,l:"Направление деятельности|Fields of activity",o:["edu;Наука и образование|Science & education","gov;Госуправление и политика|Public administration","media;Медиа|Media","creative;Креативные индустрии и культура|Creative industries & culture","biz;Предпринимательство|Entrepreneurship","sport;Спорт и здоровье|Sport & health","agro;Сельское хозяйство|Agriculture","it;Цифровизация и IT|Digital & IT","tour;Туризм|Tourism","eco;Экология|Ecology","civic;Гражданская активность и волонтёрство|Civic activity & volunteering","build;Строительство и архитектура|Construction & architecture","fin;Экономика и финансы|Economics & finance","ind;Производство и энергетика|Industry & energy","oth;Другое|Other"]},
+{k:"about",t:"area",w:1,l:"Достижения и опыт реализации проектов|Achievements and project experience"},
+{k:"task",t:"file",w:1,max:10,acc:".pdf,.doc,.docx,.ppt,.pptx,.zip,.jpg,.jpeg,.png",l:"Конкурсное задание (pdf, doc, docx, ppt, pptx, zip, jpg, png — до 10 МБ)|Competition task (pdf, doc, docx, ppt, pptx, zip, jpg, png — up to 10 MB)"},
+{k:"en",t:"select",r:1,l:"Уровень английского|English level",o:LV},
+{k:"ru",t:"select",r:1,l:"Уровень русского|Russian level",o:LV}]};
+const TABS=["reg","gen","doc","con","act"];
+const live=!!(CFG.url&&CFG.key&&window.supabase);
+const sb=live?supabase.createClient(CFG.url,CFG.key):null;
+const ls=(k,v)=>{try{return v===undefined?JSON.parse(localStorage.getItem(k)):localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}};
+const sess=e=>({id:e,email:e,admin:e==="admin@demo"||(ls("noki-admins")||[]).includes(e)});
+const FN=d=>[d.last_ru,d.first_ru,d.mid_ru].filter(Boolean).join(" ");
+const B=live?{
+ async user(){const s=(await sb.auth.getSession()).data.session;if(!s)return null;const{data}=await sb.from("profiles").select("role").eq("id",s.user.id).maybeSingle();return{id:s.user.id,email:s.user.email,admin:data?.role==="admin"}},
+ async up(e,p,m){const{data,error}=await sb.auth.signUp({email:e,password:p,options:{data:m}});if(error)throw error;if(data.session){await sb.auth.signOut();return true}return false},
+ async in(e,p){const{error}=await sb.auth.signInWithPassword({email:e,password:p});if(error)throw error;return true},
+ async out(){await sb.auth.signOut()},
+ async reset(e){const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.href.split("#")[0]});if(error)throw error},
+ async setpw(p){const{error}=await sb.auth.updateUser({password:p});if(error)throw error},
+ async mine(u){return(await sb.from("applications").select("*").eq("user_id",u.id).maybeSingle()).data},
+ async save(u,d){const{error}=await sb.rpc("save_profile",{p_data:d});if(error)throw error},
+ async submit(u){const{error}=await sb.rpc("submit_application");if(error)throw error},
+ async appeal(u,t){const{error}=await sb.rpc("appeal_application",{p_text:t});if(error)throw error},
+ async upload(u,k,f){const p=u.id+"/"+k+"-"+Date.now()+"."+(f.name.split(".").pop()||"bin").toLowerCase();const{error}=await sb.storage.from("docs").upload(p,f,{upsert:true});if(error)throw error;return p},
+ async url(p){const{data}=await sb.storage.from("docs").createSignedUrl(p,300);return data?.signedUrl},
+ async list(){return(await sb.from("applications").select("*").order("created_at",{ascending:false})).data||[]},
+ async decide(id,st,c){const{error}=await sb.from("applications").update({status:st,admin_comment:c||null,updated_at:new Date().toISOString()}).eq("id",id);if(error)throw error},
+ async accounts(){return(await sb.rpc("admin_accounts")).data||[]},
+ async partners(){return(await sb.from("partners").select("*").order("sort")).data||[]},
+ async psave(p){const{error}=await sb.from("partners").upsert(p);if(error)throw error},
+ async pdel(id){const{error}=await sb.from("partners").delete().eq("id",id);if(error)throw error},
+ async logo(f){const p=Date.now()+"-"+f.name.replace(/[^\w.]/g,"_");const{error}=await sb.storage.from("partners").upload(p,f);if(error)throw error;return sb.storage.from("partners").getPublicUrl(p).data.publicUrl},
+ async news(){return(await sb.from("news").select("*").order("created_at",{ascending:false})).data||[]},
+ async nsave(n){const{error}=await sb.from("news").upsert(n);if(error)throw error},
+ async ndel(id){const{error}=await sb.from("news").delete().eq("id",id);if(error)throw error},
+ async setAdmin(id,mk){const{error}=await sb.rpc("set_admin",{p_user:id,p_make:mk});if(error)throw error},
+ async sThreads(){return(await sb.from("support_threads").select("*").order("last_at",{ascending:false})).data||[]},
+ async sMsgs(uid){return(await sb.from("support_messages").select("*").eq("thread_user",uid).order("created_at",{ascending:true}).limit(200)).data||[]},
+ async sSend(u,uid,text){const{error}=await sb.rpc("support_send",{p_thread:u.admin?uid:null,p_text:text});if(error)throw error},
+ async sRead(u,uid){const{error}=await sb.rpc("support_read",{p_thread:uid});if(error)throw error},
+ async sStatus(uid,st){const{error}=await sb.rpc("support_set_status",{p_thread:uid,p_status:st});if(error)throw error},
+ async groups(){return(await sb.from("chat_groups").select("*").order("id")).data||[]},
+ async mutes(){return(await sb.from("chat_mutes").select("*")).data||[]},
+ async msgs(g){return((await sb.from("messages").select("*").eq("group_id",g).order("created_at",{ascending:false}).limit(100)).data||[]).reverse()},
+ async send(u,g,t,k,m){const{error}=await sb.rpc("send_message",{p_group:g,p_text:t,p_kind:k||"text",p_meta:m||null});if(error)throw error},
+ async pin(id,p){const{error}=await sb.rpc("pin_message",{p_id:id,p_pin:p});if(error)throw error},
+ async mute(uid,min){const{error}=await sb.rpc("mute_user",{p_user:uid,p_minutes:min});if(error)throw error},
+ async mkGroup(n,ms){const{data,error}=await sb.rpc("create_group",{p_name:n,p_members:ms});if(error)throw error;return data},
+ async members(g){return((await sb.from("chat_members").select("user_id").eq("group_id",g)).data||[]).map(x=>x.user_id)},
+ async setMember(g,u,add){const{error}=await sb.rpc("set_group_member",{p_group:g,p_user:u,p_add:add});if(error)throw error},
+ async delGroup(g){const{error}=await sb.rpc("delete_group",{p_group:g});if(error)throw error},
+ async delmsg(id){const{error}=await sb.from("messages").delete().eq("id",id);if(error)throw error},
+ async newsImg(f){const p=Date.now()+"-"+f.name.replace(/[^\w.]/g,"_");const{error}=await sb.storage.from("news").upload(p,f);if(error)throw error;return sb.storage.from("news").getPublicUrl(p).data.publicUrl},
+ async sent(){return(await sb.from("notifications").select("*").eq("kind","admin").order("created_at",{ascending:false}).limit(500)).data||[]},
+ async notes(u){return(await sb.from("notifications").select("*").eq("user_id",u.id).order("created_at",{ascending:false}).limit(100)).data||[]},
+ async notesRead(){const{error}=await sb.rpc("mark_notifications_read");if(error)throw error},
+ async notify(au,ti,bo,ml){const{data,error}=await sb.rpc("send_notification",{p_audience:au,p_title:ti,p_body:bo,p_email:ml});if(error)throw error;return data}
+}:{
+ async user(){return ls("noki-sess")},
+ async up(e,p){const us=ls("noki-users")||{};if(us[e])throw new Error("Email already registered");us[e]={pw:p};ls("noki-users",us);return false},
+ async in(e,p){const r=(ls("noki-users")||{})[e];if(!r||r.pw!==p)throw new Error("Invalid email or password");ls("noki-sess",sess(e));return true},
+ async out(){try{localStorage.removeItem("noki-sess")}catch(e){}},
+ async reset(e){return !!(ls("noki-users")||{})[e]},
+ async setpw(p,e){const us=ls("noki-users")||{};if(us[e]){us[e].pw=p;ls("noki-users",us)}},
+ async mine(u){return(ls("noki-apps")||[]).find(a=>a.user_id===u.id)||null},
+ async save(u,d){const a=ls("noki-apps")||[];let x=a.find(i=>i.user_id===u.id);if(!x){x={id:"a"+Date.now(),user_id:u.id,email:u.email,status:"draft",created_at:new Date().toISOString()};a.push(x)}if(x.status==="appeal")throw new Error("locked");x.data=d;x.full_name=FN(d);x.birth_date=d.birth||null;x.city=d.city||"";ls("noki-apps",a)},
+ async submit(u){const a=ls("noki-apps")||[],x=a.find(i=>i.user_id===u.id);if(x&&(x.status==="draft"||x.status==="needs_info")){x.status="pending";x.submitted_at=new Date().toISOString();ls("noki-apps",a)}},
+ async appeal(u,t){const a=ls("noki-apps")||[],x=a.find(i=>i.user_id===u.id&&i.status==="rejected");if(x){x.status="appeal";x.appeal_text=t;ls("noki-apps",a)}},
+ async upload(u,k,f){return f.name},
+ async url(){return null},
+ async list(){let a=ls("noki-apps");if(!a){a=[["Демо Участник Один","2010-05-14","Екатеринбург","pending"],["Демо Участник Два","2009-11-02","Пермь","appeal","Данные указаны верно, прошу пересмотреть."],["Демо Участник Три","2011-03-21","Нижний Тагил","approved"]].map((x,i)=>({id:"s"+i,user_id:"s"+i,email:"demo"+i+"@example.com",full_name:x[0],birth_date:x[1],city:x[2],status:x[3],data:{city:x[2],birth:x[1]},appeal_text:x[4]||null,admin_comment:x[4]?"Не удалось подтвердить возраст":null,created_at:new Date(2026,9,1+i).toISOString()}));ls("noki-apps",a)}return[...a].reverse()},
+ async decide(id,st,c){const a=ls("noki-apps")||[],x=a.find(i=>i.id===id);if(x){const was=x.status;x.status=st;x.admin_comment=c||null;ls("noki-apps",a);const T2={approved:"Заявка одобрена",rejected:"Заявка отклонена",needs_info:"Заявка ждёт дополнения"};if(T2[st]&&st!==was){const n=ls("noki-notes")||[];n.push({id:Date.now(),user_id:x.user_id,kind:"status",title:T2[st],body:(c?c+"\n\n":"")+"Подробности — в разделе «Моя заявка».",read:false,created_at:new Date().toISOString()});ls("noki-notes",n)}}},
+ async accounts(){const us=ls("noki-users")||{},ap=ls("noki-apps")||[];return Object.keys(us).map(e=>{const a=ap.find(x=>x.email===e)||{},d=a.data||{};return{user_id:e,role:(e==="admin@demo"||(ls("noki-admins")||[]).includes(e))?"admin":"participant",email:e,full_name:a.full_name,phone:d.phone,g_phone:d.g_phone,g_mail:d.g_mail,status:a.status}})},
+ async partners(){return(ls("noki-partners")||[]).slice().sort((a,b)=>(a.sort||0)-(b.sort||0))},
+ async psave(p){const a=ls("noki-partners")||[],i=a.findIndex(x=>x.id===p.id);if(i>=0)a[i]={...a[i],...p};else a.push({...p,id:"p"+Date.now()});ls("noki-partners",a)},
+ async pdel(id){ls("noki-partners",(ls("noki-partners")||[]).filter(x=>x.id!==id))},
+ async logo(){return""},
+ async news(){return(ls("noki-news")||[]).slice().sort((a,b)=>b.created_at.localeCompare(a.created_at))},
+ async nsave(n){const a=ls("noki-news")||[],i=a.findIndex(x=>x.id===n.id);if(i>=0)a[i]={...a[i],...n};else a.push({...n,id:"n"+Date.now(),created_at:new Date().toISOString()});ls("noki-news",a)},
+ async ndel(id){ls("noki-news",(ls("noki-news")||[]).filter(x=>x.id!==id))},
+ async setAdmin(id,mk){let a=(ls("noki-admins")||[]).filter(x=>x!==id);if(mk)a.push(id);ls("noki-admins",a)},
+ async sThreads(u){const a=Object.values(ls("noki-sth")||{});return(u.admin?a:a.filter(x=>x.user_id===u.id)).sort((x,y)=>y.last_at.localeCompare(x.last_at))},
+ async sMsgs(uid){return(ls("noki-smsg")||[]).filter(m=>m.thread_user===uid)},
+ async sSend(u,uid,text){const th=ls("noki-sth")||{},ms=ls("noki-smsg")||[],tid=u.admin?uid:u.id,ap=(ls("noki-apps")||[]).find(x=>x.user_id===tid),t=th[tid]||{user_id:tid,email:tid,name:ap?ap.full_name:"",status:"open",admin_unread:0,user_unread:0},now=new Date().toISOString();t.last_at=now;t.last_message=text.slice(0,120);if(u.admin)t.user_unread++;else{t.admin_unread++;t.status="open"}th[tid]=t;ms.push({id:Date.now(),thread_user:tid,is_admin:!!u.admin,body:text.slice(0,1000),created_at:now});ls("noki-sth",th);ls("noki-smsg",ms.slice(-500));if(u.admin){const n=ls("noki-notes")||[];n.push({id:Date.now()+1,user_id:tid,kind:"admin",title:"Ответ службы поддержки",body:text.slice(0,120),read:false,created_at:now});ls("noki-notes",n)}},
+ async sRead(u,uid){const th=ls("noki-sth")||{};if(th[uid]){if(u.admin)th[uid].admin_unread=0;else th[uid].user_unread=0;ls("noki-sth",th)}},
+ async sStatus(uid,st){const th=ls("noki-sth")||{};if(th[uid]){th[uid].status=st;ls("noki-sth",th)}},
+ async groups(u){let g=ls("noki-groups");if(!g){g=[{id:1,name:"Общий чат форума",is_auto:true}];ls("noki-groups",g)}const mem=ls("noki-members")||{},ap=(ls("noki-apps")||[]).find(x=>x.user_id===u.id);return(u.admin||(ap&&ap.status==="approved"))?g.filter(x=>u.admin||x.is_auto||(mem[x.id]||[]).includes(u.id)):[]},
+ async mutes(){const m=ls("noki-mutes")||{};return Object.keys(m).map(k=>({user_id:k,until:m[k]}))},
+ async msgs(g){return(ls("noki-chat")||[]).filter(m=>(m.group_id||1)===g)},
+ async send(u,g,t,k,mt){const mu=(ls("noki-mutes")||{})[u.id];if(!u.admin&&mu!==undefined&&(!mu||new Date(mu)>new Date()))throw new Error("you are muted");if(k==="call"&&!u.admin)throw new Error("forbidden");const m=ls("noki-chat")||[],ap=(ls("noki-apps")||[]).find(x=>x.user_id===u.id),n=(ap?.full_name||"").split(" ");m.push({id:Date.now(),group_id:g,user_id:u.id,author:u.admin?"Организатор":(n[0]?n[0]+(n[1]?" "+n[1][0]+".":""):"Участник"),is_admin:!!u.admin,body:t.slice(0,1000),kind:k||"text",meta:mt||null,pinned:false,created_at:new Date().toISOString()});ls("noki-chat",m.slice(-300))},
+ async pin(id,p){const a=ls("noki-chat")||[],x=a.find(m=>String(m.id)===String(id));if(x){x.pinned=p;ls("noki-chat",a)}},
+ async mute(uid,min){const m=ls("noki-mutes")||{};if(min<0)delete m[uid];else m[uid]=min===0?null:new Date(Date.now()+min*60000).toISOString();ls("noki-mutes",m)},
+ async mkGroup(n,ms){const g=ls("noki-groups")||[{id:1,name:"Общий чат форума",is_auto:true}],id=Date.now(),mem=ls("noki-members")||{};g.push({id,name:n,is_auto:false});mem[id]=ms;ls("noki-groups",g);ls("noki-members",mem);return id},
+ async members(g){return(ls("noki-members")||{})[g]||[]},
+ async setMember(g,u,add){const mem=ls("noki-members")||{},a=(mem[g]||[]).filter(x=>x!==u);if(add)a.push(u);mem[g]=a;ls("noki-members",mem)},
+ async delGroup(g){ls("noki-groups",(ls("noki-groups")||[]).filter(x=>x.id!==g));ls("noki-chat",(ls("noki-chat")||[]).filter(x=>x.group_id!==g))},
+ async delmsg(id){ls("noki-chat",(ls("noki-chat")||[]).filter(x=>String(x.id)!==String(id)))},
+ async newsImg(f){return new Promise((r,j)=>{if(f.size>1e6)return j(new Error("Demo: image up to 1 MB"));const fr=new FileReader();fr.onload=()=>r(fr.result);fr.onerror=j;fr.readAsDataURL(f)})},
+ async sent(){return(ls("noki-notes")||[]).filter(x=>x.kind==="admin")},
+ async notes(u){return(ls("noki-notes")||[]).filter(x=>x.user_id===u.id).sort((a,b)=>b.created_at.localeCompare(a.created_at))},
+ async notesRead(u){const n=ls("noki-notes")||[];n.forEach(x=>{if(x.user_id===u.id)x.read=true});ls("noki-notes",n)},
+ async notify(au,ti,bo){const us=Object.keys(ls("noki-users")||{}),ap=ls("noki-apps")||[],n=ls("noki-notes")||[],now=new Date().toISOString();let c=0;us.forEach(e=>{const a=ap.find(x=>x.email===e),ok=au==="all"||(au.includes("@")?e.toLowerCase()===au.toLowerCase():au==="draft"?(!a||a.status==="draft"):(a&&a.status===au));if(ok){n.push({id:Date.now()+c,user_id:e,kind:"admin",title:ti,body:bo,read:false,created_at:now});c++}});ls("noki-notes",n);return c}
+};
+let CU=null,R=null,D={},loaded=false,TAB="reg",V="profile",flt="all",mode="in",msg="",ok=false,keep={},sent=null,autoc=false,ag1=false,ag2=false,back="#top",cur="#top",rec=null,flash=null;
+if(sb)sb.auth.onAuthStateChange(ev=>{if(ev==="PASSWORD_RECOVERY"){rec=rec||"1";try{history.replaceState(null,"","#cabinet")}catch(e){}go("#cabinet")}});
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=d=>d?new Date(d).toLocaleDateString(L==="en"?"en-GB":"ru-RU"):"";
+const ST=["pending","appeal","needs_info","approved","rejected"];
+let AT="apps",armed=null,PARTNERS=[],NEWS=[],lastAcc=[],pubLoaded=false,NOTES=[],lastN=null;
+const er=(x,t)=>{const m=x.message||"";return /rate limit/i.test(m)?t.rate:/cannot remove yourself/i.test(m)?t.selfAdm:/you are muted/i.test(m)?t.muted:/chat is for/i.test(m)?t.chatNo:/security purposes|after \d+ seconds/i.test(m)?t.rate60:/not confirmed/i.test(m)?t.notconf:/invalid login/i.test(m)?t.badlogin:m};
+const mh=()=>`<p class="cm ${ok?"ok":""}" role="status">${esc(msg)}</p>`;
+function fh(f,v,t){
+ const id="f_"+f.k,rq=f.r?' <b class="rq">*</b>':"";let i;
+ if(f.t==="check")return `<label class="chk w"><input type="checkbox" id="${id}" ${v?"checked":""}><span>${tx(f.l)}${rq}</span></label>`;
+ if(f.t==="checks")i=`<div class="cks">${f.o.map(o=>{const[a,b]=op(o);return `<label class="chk"><input type="checkbox" data-g="${f.k}" value="${a}" ${(v||[]).includes(a)?"checked":""}><span>${b}</span></label>`}).join("")}</div>`;
+ else if(f.t==="select")i=`<select id="${id}"><option value=""></option>${f.o.map(o=>{const[a,b]=op(o);return `<option value="${a}" ${v===a?"selected":""}>${b}</option>`}).join("")}</select>`;
+ else if(f.t==="area")i=`<textarea id="${id}" rows="5" maxlength="1500">${esc(v)}</textarea>`;
+ else if(f.t==="file")i=`<div class="fl"><label class="cbtn gh" for="${id}">${t.choose}</label><input type="file" id="${id}" accept="${f.acc}" hidden><span class="mu">${v?"✓ "+esc(String(v).split("/").pop()):""}</span></div>`;
+ else i=`<input id="${id}" type="${f.t}" value="${esc(v)}" ${f.min?`min="${f.min}" max="${f.max}"`:""} maxlength="200">`;
+ return `<div class="f ${f.w?"w":""}"><label for="${id}">${tx(f.l)}${rq}</label>${i}</div>`;
+}
+function collect(){if(!$("#tf"))return;F[TAB].forEach(f=>{const e=$("#f_"+f.k);
+ if(f.t==="checks")D[f.k]=[...document.querySelectorAll(`[data-g="${f.k}"]:checked`)].map(i=>i.value);
+ else if(f.t==="file")return;else if(f.t==="check"){if(e)D[f.k]=e.checked}else if(e)D[f.k]=e.value.trim()})}
+const reqs=()=>TABS.flatMap(k=>F[k].filter(f=>f.r));
+const miss=()=>reqs().filter(f=>{const v=D[f.k];return f.t==="checks"?!(v&&v.length):!v}).map(f=>tx(f.s||f.l).replace(/\s*\(.*$/,""));
+async function reload(){R=await B.mine(CU);D={...(R?.data||{})};loaded=true}
+function det(a,t){const d=a.data||{},r=[];TABS.forEach(k=>F[k].forEach(f=>{let v=d[f.k];if(v===undefined||v===""||(Array.isArray(v)&&!v.length))return;
+ const lab=x=>{const o=f.o.find(o=>o.startsWith(x+";"));return o?op(o)[1]:x};
+ if(f.t==="file")v=`<button class="cbtn gh" style="margin:0" data-act="open" data-path="${esc(v)}">${t.open}</button>`;
+ else if(f.t==="checks")v=v.map(x=>esc(lab(x))).join(", ");else if(f.t==="select")v=esc(lab(v));else if(f.t==="check")v=v?"✓":"—";else v=esc(v);
+ r.push(`<div class="dr"><span>${tx(f.s||f.l).replace(/\s*\(.*$/,"")}</span><b>${v}</b></div>`)}));return r.join("")}
+function pHTML(t){
+ const un=NOTES.filter(x=>!x.read).length,m=miss(),n=reqs().length,pct=Math.round(100*(n-m.length)/n),st=R?R.status:"draft",lock=st==="appeal";
+ const ini=((D.last_ru||CU.email||"?")[0]+((D.first_ru||"")[0]||"")).toUpperCase();
+ const side=`<aside class="cc sd"><div class="av">${esc(ini)}</div><b>${esc(FN(D)||CU.email)}</b><span class="mu">${esc(CU.email)}</span><span class="st ${st}">${t[st]}</span><div class="bar"><i style="width:${pct}%"></i></div><span class="mu">${t.fill} ${pct}%</span><nav class="nv"><button data-act="v-profile" aria-current="${V==="profile"}">${t.profile}</button><button data-act="v-app" aria-current="${V==="app"}">${t.myapp}</button>${st==="approved"?`<button data-act="v-chat" aria-current="${V==="chat"}">${t.chat}</button>`:""}<button data-act="v-notes" aria-current="${V==="notes"}">${t.notes}<span class="bd" id="nbadge" ${un?"":"hidden"}>${un}</span></button><button data-act="v-support" aria-current="${V==="support"}">${t.support}<span class="bd" id="sbadge" ${SUPU?"":"hidden"}>${SUPU}</span></button><a href="#program">${t.prog}</a></nav><button class="cbtn gh" data-act="out" style="margin:14px 0 0">${t.out}</button></aside>`;
+ let main;
+ if(V==="profile")main=`<form id="tf" class="cc"><h2>${t.profile}</h2><div class="tabs3">${TABS.map(k=>`<button type="button" data-act="t-${k}" aria-selected="${TAB===k}">${t["t_"+k]}</button>`).join("")}</div><div class="fg">${TAB==="reg"?`<div class="f w"><label>${t.em}</label><input value="${esc(CU.email)}" disabled></div>`:""}${F[TAB].map(f=>fh(f,D[f.k],t)).join("")}</div>${mh()}<button class="cbtn" type="submit" ${lock?"disabled":""}>${t.save}</button></form>`;
+ else if(V==="notes")main=noteHTML(t);
+ else if(V==="support")main=`<article class="cc"><h2>${t.support}</h2><div id="suproot"></div></article>`;
+ else if(V==="chat"&&st==="approved")main=chatHTML(t);
+ else main=`<article class="cc"><div class="ctop"><div><h2 style="margin:0 0 6px">${t.myapp}</h2><p class="mu">${t.event}</p>${st!=="draft"?`<p class="mu">${t.sentOn}: ${fmt(R.submitted_at||R.created_at)}</p>`:""}</div><span class="st ${st}">${t[st]}</span></div><p class="q">${t["n_"+st]}</p>${R?.admin_comment?`<p class="q"><b>${t.cmt}:</b> ${esc(R.admin_comment)}</p>`:""}${R?.appeal_text?`<p class="q"><b>${t.apl}:</b> ${esc(R.appeal_text)}</p>`:""}${(st==="draft"||st==="needs_info")?(m.length?`<p class="q"><b>${t.needFill}</b> ${m.map(esc).join(", ")}</p>`:"")+mh()+`<button class="cbtn" data-act="submit" ${m.length?"disabled":""}>${st==="draft"?t.submit:t.resubmit}</button>`:""}${st==="rejected"?`<label for="ap">${t.apl}</label><textarea id="ap" rows="4" maxlength="800" placeholder="${t.aph}"></textarea>${mh()}<button class="cbtn" data-act="appeal">${t.appealBtn}</button>`:""}</article>`;
+ return `<div class="cab">${side}<div>${main}</div></div>`;
+}
+const imgOk=u=>/^https?:\/\//i.test(u||"")||/^data:image\//i.test(u||"");
+const fmtT=d=>new Date(d).toLocaleTimeString(L==="en"?"en-GB":"ru-RU",{hour:"2-digit",minute:"2-digit"});
+function chatHTML(t){return `<article class="cc" style="max-width:none"><h2>${t.chat}</h2><p class="mu">${t.chatNote}</p><div id="chatroot"></div></article>`}
+let GR=[],CG=null,CMODE="chat",MUTES={},ACC=[],CMEM=[];
+let STH=[],CT=null,SFLT="open",SUPU=0,supInit=false;
+const gcol=id=>["var(--g)","var(--o)","#4f6bed","var(--r)","#b88a00"][Math.abs(+id||0)%5];
+const isMuted=uid=>{const m=MUTES[uid];return !!m&&(!m.until||new Date(m.until)>new Date())};
+const accId=a=>a.user_id||a.email,accNm=id=>{const a=ACC.find(x=>accId(x)===id);return esc(a?(a.full_name||a.email):id)};
+async function chatDraw(){
+ const t=C[L],root=$("#chatroot");if(!root||!CU)return;
+ const[g,mu]=await Promise.all([B.groups(CU),B.mutes(CU)]);GR=g;MUTES={};mu.forEach(r=>MUTES[r.user_id]=r);
+ if(!GR.some(x=>x.id===CG))CG=GR.length?GR[0].id:null;
+ if(CU.admin&&(CMODE==="new"||CMODE==="members"))ACC=await B.accounts();
+ if(CMODE==="members"&&CG!==null)CMEM=await B.members(CG);
+ root.innerHTML=chatShell(t);await chatRefresh();
+}
+function chatShell(t){
+ const g=GR.find(x=>x.id===CG),adm=CU.admin;
+ const list=`<div class="gl">${GR.map(x=>`<button class="gi ${x.id===CG&&CMODE!=="new"?"on":""}" data-act="grp" data-id="${x.id}"><i class="ga" style="background:${gcol(x.id)}">${esc((x.name||"?").trim().charAt(0).toUpperCase())}</i><span><b>${esc(x.name)}</b><small>${x.is_auto?t.autoG:t.customG}</small></span></button>`).join("")}${adm?`<button class="gi add" data-act="gnew"><i class="ga">+</i><span><b>${t.newG}</b></span></button>`:""}</div>`;
+ let pane;
+ if(CMODE==="new"&&adm){const ap=ACC.filter(a=>a.status==="approved"&&a.role!=="admin");pane=`<div class="ch"><b>${t.newG}</b></div><label for="gname">${t.gname}</label><input id="gname" maxlength="60"><label>${t.gmembers}</label><div class="cks">${ap.map(a=>`<label class="chk"><input type="checkbox" data-gm="${esc(accId(a))}"><span>${esc(a.full_name||a.email)}</span></label>`).join("")||`<p class="mu">${t.noMem}</p>`}</div><div class="cbs"><button class="cbtn ok" data-act="gcreate">${t.create}</button><button class="cbtn gh" data-act="gcancel">${t.cancel}</button></div>`}
+ else if(!g)pane=`<p class="mu">${t.noGroups}</p>`;
+ else if(CMODE==="members"&&adm){const cand=ACC.filter(a=>a.status==="approved"&&!CMEM.includes(accId(a)));pane=`<div class="ch"><i class="ga" style="background:${gcol(g.id)}">${esc(g.name.charAt(0).toUpperCase())}</i><div><b>${esc(g.name)}</b><small>${t.members}</small></div></div>${CMEM.map(id=>`<div class="mrow"><span>${accNm(id)}</span><button class="x" data-act="gmrm" data-id="${esc(id)}">✕</button></div>`).join("")||`<p class="mu">${t.noMem}</p>`}<label for="gmsel">${t.addMember}</label><div class="cbs"><select id="gmsel">${cand.map(a=>`<option value="${esc(accId(a))}">${esc(a.full_name||a.email)}</option>`).join("")}</select><button class="cbtn ok" data-act="gmadd" style="margin:0">${t.add}</button></div><button class="cbtn gh" data-act="gcancel">${t.back2}</button>`}
+ else{const mu=isMuted(CU.id);pane=`<div class="ch"><i class="ga" style="background:${gcol(g.id)}">${esc(g.name.charAt(0).toUpperCase())}</i><div><b>${esc(g.name)}</b><small>${g.is_auto?t.autoNote:t.customG}</small></div>${adm?`<div class="cha"><select id="mdur" title="${t.muteFor}"><option value="15">${t.muteFor} 15 ${t.min}</option><option value="60" selected>${t.muteFor} 1 ${t.hour}</option><option value="1440">${t.muteFor} 24 ${t.hours}</option><option value="0">${t.muteFor} ${t.forever}</option></select><button class="ib" data-act="gcall" title="${t.newCall}">📞</button>${g.is_auto?"":`<button class="ib" data-act="gmem" title="${t.members}">👥</button><button class="ib" data-act="gdel" data-id="${g.id}" title="${t.del}">${armed==="g"+g.id?"❓":"🗑"}</button>`}</div>`:""}</div><div id="pins"></div><div id="msgs" class="msgs"></div>${CMODE==="call"&&adm?`<div class="callf"><b>${t.newCall}</b><label for="ctitle">${t.callTitle}</label><input id="ctitle" maxlength="120"><label for="curl">${t.callUrl}</label><input id="curl" maxlength="300" placeholder="https://"><label for="cat">${t.callAt}</label><input id="cat" type="datetime-local"><div class="cbs"><button class="cbtn ok" data-act="callgo">${t.startCall}</button><button class="cbtn gh" data-act="gcancel">${t.cancel}</button></div></div>`:""}${mu?`<p class="cm">${t.muted}</p>`:`<form id="cf"><input id="cin" placeholder="${t.msgPh}" maxlength="1000" autocomplete="off"><button class="cbtn" type="submit" style="margin:0">${t.sendBtn}</button></form>`}<p class="cm" id="cmsg"></p>`}
+ return `<div class="chat">${list}<div class="cp">${pane}</div></div>`;
+}
+function msgHTML(m,t){
+ const adm=CU.admin,mine=m.user_id===CU.id,mt=m.meta||{},mm=isMuted(m.user_id);
+ const act=adm?`<span class="ma"><button class="x" data-act="mpin" data-id="${esc(m.id)}" data-pin="${m.pinned?0:1}" title="${t.pin}">📌</button>${!mine&&!m.is_admin?`<button class="x" data-act="mmute" data-id="${esc(m.user_id)}" data-un="${mm?1:0}" title="${t.mute}">${mm?"🔊":"🔇"}</button>`:""}<button class="x" data-act="mdel" data-id="${esc(m.id)}">✕</button></span>`:"";
+ if(m.kind==="call"){const u=safe(mt.url);return `<div class="m call ${m.pinned?"pn":""}"><small>${esc(m.author)} · ${fmtT(m.created_at)}${act}</small><div class="cc2"><i>📞</i><div><b>${esc(mt.title||m.body)}</b>${mt.at?`<span>${esc(new Date(mt.at).toLocaleString(L==="en"?"en-GB":"ru-RU",{dateStyle:"medium",timeStyle:"short"}))}</span>`:""}</div>${u?`<a class="cbtn" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t.joinCall}</a>`:""}</div></div>`}
+ return `<div class="m ${mine?"me":""} ${m.is_admin?"adm":""} ${m.pinned?"pn":""}"><small>${esc(m.author)} · ${fmtT(m.created_at)}${act}</small><p>${esc(m.body)}</p></div>`;
+}
+async function chatRefresh(){
+ const el=$("#msgs");if(!el||!CU||CG===null)return;const t=C[L],g=CG,arr=await B.msgs(g);if(g!==CG||!$("#msgs"))return;
+ const near=el.scrollHeight-el.scrollTop-el.clientHeight<80,first=el.dataset.g!==String(g);
+ el.innerHTML=arr.length?arr.map(m=>msgHTML(m,t)).join(""):`<p class="mu">${t.noMsg}</p>`;
+ $("#pins").innerHTML=arr.filter(m=>m.pinned).slice(-3).map(m=>`<div class="pin">📌<span><b>${esc(m.author)}</b> ${esc((m.kind==="call"?((m.meta||{}).title||m.body):m.body).slice(0,120))}</span>${CU.admin?`<button class="x" data-act="mpin" data-id="${esc(m.id)}" data-pin="0">✕</button>`:""}</div>`).join("");
+ el.dataset.g=g;if(near||first)el.scrollTop=el.scrollHeight;
+}
+const sInit=v=>((v||"?").trim().charAt(0)||"?").toUpperCase();
+function supBadge(){["#sbadge","#asb"].forEach(i=>{const e=$(i);if(e){e.textContent=SUPU;e.hidden=!SUPU}})}
+function pollSup(){B.sThreads(CU).then(a=>{const n=CU.admin?a.filter(x=>x.admin_unread>0).length:(a[0]?a[0].user_unread:0);if(supInit&&n>SUPU&&!$("#smsgs"))toast(CU.admin?C[L].newTicket:C[L].supReply,"","admin");SUPU=n;supBadge();supInit=true}).catch(()=>{})}
+function supList(t){
+ const f=STH.filter(x=>SFLT==="all"||x.status===SFLT);
+ return `<div class="flt" style="padding:4px 4px 8px">${[["open",t.fOpen],["closed",t.fClosed],["all",t.all]].map(([v,l])=>`<button data-act="sflt" data-v="${v}" aria-pressed="${SFLT===v}">${l}</button>`).join("")}</div>`+(f.map(x=>`<button class="gi ${x.user_id===CT?"on":""}" data-act="sth" data-id="${esc(x.user_id)}"><i class="ga" style="background:${gcol(x.user_id.length+x.user_id.charCodeAt(0))}">${esc(sInit(x.name||x.email))}</i><span><b>${esc(x.name||x.email)}${x.status==="closed"?" ✓":""}</b><small>${esc(x.last_message||"")}</small></span>${x.admin_unread>0?`<span class="bd">${x.admin_unread}</span>`:""}</button>`).join("")||`<p class="mu" style="padding:8px">${t.noTickets}</p>`);
+}
+function supPane(t,th){
+ const adm=CU.admin,closed=th&&th.status==="closed";
+ return `<div class="ch"><i class="ga" style="background:${adm?"var(--o)":"var(--g)"}">${adm?esc(sInit(th.name||th.email)):"?"}</i><div><b>${adm?esc(th.name||th.email):t.supportT}</b><small>${adm?esc(th.email||""):t.supportNote}</small></div>${adm?`<div class="cha"><button class="cbtn ${closed?"ok":"gh"}" style="margin:0;padding:8px 16px" data-act="sstat" data-id="${esc(th.user_id)}" data-st="${closed?"open":"closed"}">${closed?t.reopen:t.closeT}</button></div>`:""}</div><div id="smsgs" class="msgs"></div>${!adm&&closed?`<p class="cm" style="color:var(--mute)">${t.closedNote}</p>`:""}<form id="sf"><input id="sin" placeholder="${t.msgPh}" maxlength="1000" autocomplete="off"><button class="cbtn" type="submit" style="margin:0">${t.sendBtn}</button></form>${adm?"":`<div class="qr">${[t.q1,t.q2,t.q3].map(q=>`<button type="button" class="qb" data-act="sq" data-q="${esc(q)}">${esc(q)}</button>`).join("")}</div>`}<p class="cm" id="smsg"></p>`;
+}
+function supShell(t){
+ const th=CU.admin?STH.find(x=>x.user_id===CT):(STH[0]||null);
+ if(!CU.admin)return `<div class="cp">${supPane(t,th)}</div>`;
+ return `<div class="chat"><div class="gl" id="suplist">${supList(t)}</div><div class="cp">${th?supPane(t,th):`<p class="mu">${t.noTickets}</p>`}</div></div>`;
+}
+async function supDraw(){
+ const t=C[L],root=$("#suproot");if(!root||!CU)return;
+ STH=await B.sThreads(CU);
+ if(CU.admin){if(!STH.some(x=>x.user_id===CT)){const f=STH.filter(x=>SFLT==="all"||x.status===SFLT);CT=f.length?f[0].user_id:(STH[0]?STH[0].user_id:null)}}else CT=CU.id;
+ root.innerHTML=supShell(t);await supRefresh();
+}
+async function supRefresh(){
+ const el=$("#smsgs");if(!el||!CU||!CT)return;
+ const t=C[L],uid=CT,[arr,th]=await Promise.all([B.sMsgs(uid),B.sThreads(CU)]);
+ if(uid!==CT||!$("#smsgs"))return;
+ STH=th;const cur=CU.admin?th.find(x=>x.user_id===uid):th[0];
+ const near=el.scrollHeight-el.scrollTop-el.clientHeight<80,first=el.dataset.g!==String(uid),who=CU.admin?esc(cur?(cur.name||cur.email):""):t.you;
+ el.innerHTML=arr.length?arr.map(m=>`<div class="m ${(CU.admin?m.is_admin:!m.is_admin)?"me":""} ${m.is_admin?"adm":""}"><small>${m.is_admin?t.supportName:who} · ${fmtT(m.created_at)}</small><p>${esc(m.body)}</p></div>`).join(""):`<p class="mu">${t.supEmpty}</p>`;
+ el.dataset.g=uid;if(near||first)el.scrollTop=el.scrollHeight;
+ const un=cur?(CU.admin?cur.admin_unread:cur.user_unread):0,l=()=>{const e=$("#suplist");if(e)e.innerHTML=supList(t)};
+ if(un>0)B.sRead(CU,uid).then(()=>{if(CU.admin)cur.admin_unread=0;else cur.user_unread=0;SUPU=Math.max(0,SUPU-(CU.admin?1:un));supBadge();l()}).catch(()=>{});else l();
+}
+async function supSend(){const i=$("#sin"),v=i.value.trim(),t=C[L];if(!v)return;try{await B.sSend(CU,CT,v);i.value="";await supDraw()}catch(x){$("#smsg").textContent=t.bad+er(x,t)}}
+async function chatSend(){const i=$("#cin"),v=i.value.trim(),t=C[L];if(!v)return;try{await B.send(CU,CG,v);i.value="";$("#cmsg").textContent="";await chatRefresh()}catch(x){$("#cmsg").textContent=t.bad+er(x,t)}}
+setInterval(()=>{if(!$("#cabview").hidden&&$("#msgs"))chatRefresh().catch(()=>{})},5000);
+setInterval(()=>{if(!$("#cabview").hidden&&$("#smsgs"))supRefresh().catch(()=>{})},5000);
+async function aAdmins(t){
+ lastAcc=await B.accounts();
+ const r=lastAcc.map(a=>{const id=a.user_id||a.email,ad=a.role==="admin",k="a"+id;return `<tr><td>${esc(a.email)}</td><td>${esc(a.full_name||"")}</td><td>${ad?t.roleAdmin:t.roleUser}</td><td>${id===CU.id?"":`<button class="cbtn ${ad?"no":"ok"}" style="margin:0;padding:8px 16px" data-act="setadm" data-id="${esc(id)}" data-make="${ad?0:1}">${armed===k?t.confirm:ad?t.rmAdm:t.makeAdm}</button>`}</td></tr>`}).join("");
+ return `<div class="cbs" style="align-items:center"><input id="qs" placeholder="${t.search}" style="max-width:300px"><span class="mu">${t.acct} ${lastAcc.length}</span></div><div style="overflow-x:auto;margin-top:14px"><table id="ctab" class="tb"><thead><tr><th>${t.em}</th><th>${t.fn}</th><th>${t.roleL}</th><th></th></tr></thead><tbody>${r}</tbody></table></div>`;
+}
+function badge(){const u=NOTES.filter(x=>!x.read).length,b=$("#nbadge"),h=$("#hbadge");if(b){b.textContent=u;b.hidden=!u}if(h){h.textContent=u;h.hidden=!u;$("#bell").classList.toggle("has",!!u)}}
+const IC={status:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>',admin:'<svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>'};
+function ago(d){const s=(Date.now()-new Date(d))/1000,r=new Intl.RelativeTimeFormat(L==="en"?"en":"ru",{numeric:"auto"});if(s<60)return r.format(0,"second");if(s<3600)return r.format(-Math.floor(s/60),"minute");if(s<86400)return r.format(-Math.floor(s/3600),"hour");if(s<604800)return r.format(-Math.floor(s/86400),"day");return fmt(d)}
+const nItem=(n,short)=>{const b=n.body||"";return `<div class="nt2 ${n.read?"":"unread"}"><i class="ni k-${n.kind==="status"?"status":"admin"}">${IC[n.kind]||IC.admin}</i><div class="nb"><small>${ago(n.created_at)}</small><b>${esc(n.title)}</b><p>${esc(short?b.slice(0,100)+(b.length>100?"…":""):b)}</p></div></div>`};
+function bellRender(){
+ const t=C[L],p=$("#bellpanel");
+ const items=CU?(NOTES.slice(0,8).map(n=>nItem(n,true)).join("")||`<p class="mu">${t.noNotes}</p>`):`<p class="mu">${t.bellLogin}</p>`;
+ p.innerHTML=`<div class="bh"><b>${t.notes}</b>${CU&&CU.admin?`<button class="cbtn" data-bell="create" style="margin:0;padding:7px 14px;font-size:.8rem">+ ${t.createN}</button>`:""}</div>${items}<button class="cbtn gh" data-bell="all" style="margin:12px 0 0;width:100%">${CU?t.allNotes:t.si}</button>`;
+}
+document.addEventListener("click",async e=>{
+ const p=$("#bellpanel");
+ if(e.target.closest("#bell")){
+  if(!p.hidden){p.hidden=true;return}
+  if(CU){try{NOTES=await B.notes(CU)}catch(x){}}
+  bellRender();p.hidden=false;
+  if(CU&&NOTES.some(x=>!x.read))B.notesRead(CU).then(()=>{NOTES.forEach(x=>x.read=true);badge()}).catch(()=>{});
+  return}
+ const a=e.target.closest("[data-bell]");
+ if(a){p.hidden=true;if(CU){if(CU.admin)AT="notes";else V="notes"}go("#cabinet");return}
+ if(!p.hidden&&!e.target.closest("#bellpanel"))p.hidden=true;
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#bellpanel").hidden=true});
+function toast(title,body,kind){let t=$("#toast");if(!t){t=document.createElement("a");t.id="toast";t.href="#cabinet";t.addEventListener("click",e=>{if(e.target.closest(".tx")){e.preventDefault();e.stopPropagation();t.className="toast";return}V="notes";AT="notes";t.className="toast"});document.body.appendChild(t)}
+ body=body||"";t.innerHTML=`<i class="ni k-${kind==="status"?"status":"admin"}">${IC[kind]||IC.admin}</i><span class="tb"><b>${esc(title)}</b>${body?`<span>${esc(body.slice(0,90))}${body.length>90?"…":""}</span>`:""}</span><button type="button" class="tx" aria-label="Close">✕</button><em class="tp"></em>`;
+ t.className="toast";void t.offsetWidth;t.className="toast on";clearTimeout(t._h);t._h=setTimeout(()=>{t.className="toast"},8000)}
+let RT=null;
+function rtSub(){if(!live||!CU||RT)return;RT=sb.channel("notes-"+CU.id).on("postgres_changes",{event:"INSERT",schema:"public",table:"notifications",filter:"user_id=eq."+CU.id},()=>pollNotes()).on("postgres_changes",{event:"*",schema:"public",table:"messages"},()=>{if($("#msgs"))chatRefresh().catch(()=>{})}).on("postgres_changes",{event:"*",schema:"public",table:"support_messages"},()=>{if($("#smsgs"))supRefresh().catch(()=>{});pollNotes()}).subscribe()}
+function rtOff(){if(RT){try{sb.removeChannel(RT)}catch(e){}RT=null}}
+function pollNotes(){if(!CU)return;pollSup();B.notes(CU).then(a=>{const un=a.filter(x=>!x.read),mx=Math.max(0,...un.map(x=>+x.id||0));NOTES=a;badge();
+ if(un.length&&(lastN===null||mx>lastN)){const nw=un.slice().sort((p,q)=>(+q.id||0)-(+p.id||0))[0];toast(lastN===null?C[L].unreadN.replace("{n}",un.length):nw.title,lastN===null?"":nw.body,nw.kind);if(lastN!==null){try{if(window.Notification&&Notification.permission==="granted"&&document.hidden)new Notification(nw.title,{body:(nw.body||"").slice(0,120)})}catch(e){}}}
+ lastN=Math.max(lastN||0,mx)}).catch(()=>{})}
+function noteHTML(t){return `<article class="cc"><h2>${t.notes}</h2>${window.Notification&&Notification.permission==="default"?`<button class="cbtn gh" data-act="perm" style="margin:0 0 10px">${t.enablePush}</button>`:""}${NOTES.length?NOTES.map(n=>nItem(n,false)).join(""):`<p class="mu">${t.noNotes}</p>`}</article>`}
+async function aNotes(t){
+ NOTES=await B.notes(CU);
+ const g={};(await B.sent()).forEach(n=>{const k=n.title+"|"+n.created_at,r=g[k]=g[k]||{t:n.title,d:n.created_at,c:0,r:0};r.c++;if(n.read)r.r++});
+ const hist=`<article class="cc"><h2>${t.sentH}</h2>${Object.values(g).sort((a,b)=>String(b.d).localeCompare(String(a.d))).slice(0,20).map(h=>`<div class="nt2"><i class="ni k-admin">${IC.admin}</i><div class="nb"><small>${fmt(h.d)}</small><b>${esc(h.t)}</b><p>${t.recip}: ${h.c} · ${t.readBy}: ${h.r}</p><div class="bar"><i style="width:${h.c?Math.round(100*h.r/h.c):0}%"></i></div></div></div>`).join("")||`<p class="mu">${t.noSent}</p>`}</article>`;
+ const o=["all",...ST,"draft","one"].map(v=>`<option value="${v}">${v==="all"?t.aud_all:v==="draft"?t.aud_draft:v==="one"?t.aud_one:t[v]}</option>`).join("");
+ return `<article class="cc nf" style="max-width:none"><h2 class="nh"><i class="ni k-admin">${IC.admin}</i>${t.newNote}</h2><label for="na">${t.audL}</label><select id="na">${o}</select><label for="ne">Email</label><input id="ne" type="email" placeholder="${t.aud_one}"><label for="ntt">${t.ntitle}</label><input id="ntt" maxlength="200"><label for="nbb">${t.nText}</label><textarea id="nbb" rows="5" maxlength="2000"></textarea><label class="chk"><input type="checkbox" id="nmail" checked><span>${t.mailChk}</span></label><button class="cbtn" data-act="nsend">${t.nsendBtn}</button></article>`+hist+noteHTML(t);
+}
+const clr=id=>{const e=$("#"+id);if(e)e.value="";delete keep[id]};
+async function aHTML(t){
+ const h=`<div class="cwho"><h1>${t.cab}</h1><div>${esc(CU.email)} <span class="st approved">${t.adm}</span><button class="cbtn gh" data-act="out">${t.out}</button></div></div><div class="tabs3">${["apps","contacts","admins","chat","support","notes","partners","news"].map(k=>`<button data-act="at-${k}" aria-selected="${AT===k}">${t["a_"+k]}${k==="support"?`<span class="bd" id="asb" ${SUPU?"":"hidden"}>${SUPU}</span>`:""}</button>`).join("")}</div>`;
+ return h+await({apps:aApps,contacts:aContacts,admins:aAdmins,chat:async t=>chatHTML(t),support:async t=>`<article class="cc" style="max-width:none"><div id="suproot"></div></article>`,notes:aNotes,partners:aPartners,news:aNews}[AT])(t)+mh();
+}
+async function aApps(t){
+ const arr=(await B.list()).filter(x=>x.status!=="draft"),n=s=>arr.filter(x=>x.status===s).length,shown=arr.filter(x=>flt==="all"||x.status===flt);
+ let h=n("appeal")?`<div class="done" style="background:var(--o);color:#17181a"><div><b>${t.newAppeals} ${n("appeal")}</b></div></div>`:"";
+ h+=`<div class="flt"><button data-act="f-all" aria-pressed="${flt==="all"}">${t.all} ${arr.length}</button>${ST.map(s=>`<button data-act="f-${s}" aria-pressed="${flt===s}">${t[s]} ${n(s)}</button>`).join("")}<button data-act="refresh">↻ ${t.refresh}</button></div>`;
+ return h+(shown.length?shown.map(a=>`<article class="cc ${a.status==="appeal"?"hl":""}" style="max-width:none"><div class="ctop"><div><h3>${esc(a.full_name)}</h3><p class="mu">${fmt(a.birth_date)} · ${esc(a.city)} · ${esc(a.email)}</p><p class="mu">${t.sentOn}: ${fmt(a.submitted_at||a.created_at)}</p></div><span class="st ${a.status}">${t[a.status]}</span></div>${a.appeal_text?`<p class="q"><b>${t.apl}:</b> ${esc(a.appeal_text)}</p>`:""}${a.admin_comment?`<p class="mu">${t.cmt}: ${esc(a.admin_comment)}</p>`:""}<details><summary>${t.anketa}</summary>${det(a,t)}</details><input id="cm-${a.id}" placeholder="${t.cmtPh}" maxlength="300" style="margin-top:14px"><div class="cbs"><button class="cbtn ok" data-act="approved" data-id="${a.id}">${t.approve}</button><button class="cbtn" data-act="needs_info" data-id="${a.id}" style="background:#4f6bed;color:#fff">${t.needs_info}</button><button class="cbtn no" data-act="rejected" data-id="${a.id}">${t.reject}</button></div></article>`).join(""):`<p class="mu" style="margin-top:20px">${t.none}</p>`);
+}
+async function aContacts(t){
+ lastAcc=await B.accounts();
+ const r=lastAcc.map(a=>`<tr><td>${esc(a.email)}</td><td>${esc(a.full_name||"")}</td><td>${esc(a.phone||"")}</td><td>${esc(a.g_phone||"")}</td><td>${esc(a.g_mail||"")}</td><td>${a.status?t[a.status]:""}</td></tr>`).join("");
+ return `<div class="cbs" style="align-items:center"><input id="qs" placeholder="${t.search}" style="max-width:260px"><button class="cbtn gh" data-act="copy" style="margin:0">${t.copyMail}</button><button class="cbtn gh" data-act="csv" style="margin:0">${t.csv}</button><span class="mu">${t.acct} ${lastAcc.length}</span></div><div style="overflow-x:auto;margin-top:14px"><table id="ctab" class="tb"><thead><tr><th>${t.em}</th><th>${t.fn}</th><th>${t.ph}</th><th>${t.gph}</th><th>${t.gml}</th><th></th></tr></thead><tbody>${r}</tbody></table></div>`;
+}
+async function aPartners(t){
+ return[...await B.partners(),{id:"new",name:"",url:"",logo:"",sort:0}].map(p=>{const i=p.id,nw=i==="new";
+  return `<article class="cc" style="max-width:none"><div class="fg"><div class="f"><label for="pn-${i}">${t.pname}</label><input id="pn-${i}" value="${esc(p.name)}" maxlength="120"></div><div class="f"><label for="pu-${i}">${t.purl}</label><input id="pu-${i}" value="${esc(p.url)}" maxlength="300"></div><div class="f"><label for="pl-${i}">${t.plogo}</label><input id="pl-${i}" value="${esc(p.logo)}" maxlength="400"></div><div class="f"><label for="ps-${i}">${t.psort}</label><input id="ps-${i}" type="number" value="${esc(p.sort)}"></div></div><div class="cbs"><label class="cbtn gh" for="pf-${i}" style="margin-top:18px">${t.logoUp}</label><input type="file" id="pf-${i}" accept="image/*" hidden><button class="cbtn ok" data-act="psave" data-id="${i}">${nw?t.add:t.save}</button>${nw?"":`<button class="cbtn no" data-act="pdel" data-id="${i}">${armed==="p"+i?t.sure:t.del}</button>`}</div></article>`}).join("");
+}
+async function aNews(t){
+ return[{id:"new",title:"",body:""},...await B.news()].map(n=>{const i=n.id,nw=i==="new";
+  return `<article class="cc" style="max-width:none"><p class="mu">${nw?t.newItem:fmt(n.created_at)}</p><label for="nt-${i}">${t.ntitle}</label><input id="nt-${i}" value="${esc(n.title)}" maxlength="160"><label for="nb-${i}">${t.nbody}</label><textarea id="nb-${i}" rows="5" maxlength="4000">${esc(n.body)}</textarea><label for="ni-${i}">${t.nimg}</label><input id="ni-${i}" value="${esc(n.image||"")}">${imgOk(n.image)?`<img src="${esc(n.image)}" alt="" style="max-height:140px;max-width:100%;border-radius:16px;margin-top:10px">`:""}<div class="cbs"><label class="cbtn gh" for="nf-${i}" style="margin-top:18px">${t.nup}</label><input type="file" id="nf-${i}" accept="image/*" hidden><button class="cbtn ok" data-act="nsave" data-id="${i}">${nw?t.pub:t.save}</button>${nw?"":`<button class="cbtn no" data-act="ndel" data-id="${i}">${armed==="n"+i?t.sure:t.del}</button>`}</div></article>`}).join("");
+}
+function snap(){collect();document.querySelectorAll("#cabbody input,#cabbody textarea").forEach(i=>{if(i.id&&!i.id.startsWith("f_")&&i.type!=="checkbox")keep[i.id]=i.value});if($("#ag1")){ag1=$("#ag1").checked;ag2=$("#ag2").checked}}
+async function cabRender(){
+ const t=C[L];snap();
+ let h=live?"":`<div class="warn">${t.demo}</div>`;
+ if(flash)h+=`<div class="done" role="status"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" fill="rgba(255,255,255,.22)"/><path d="M10 19l5 5 11-12" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>${t.sentOk}</b><span>${esc(flash)}</span></div></div>`;
+ if(sent)h+=`<div class="mail"><div class="env">✉️</div><h1>${t.mailT}</h1><p>${t.mailP}</p><p><b>${esc(sent)}</b></p>${live?(autoc?`<p class="q">${t.autoc}</p>`:""):`<p class="q">${t.demoMail}</p>`}${mh()}<button class="cbtn" data-act="resend">${t.resend}</button><button class="cbtn gh" data-act="back">${t.back}</button></div>`;
+ else if(rec)h+=`<h1>${t.newT}</h1><p class="mu">${t.newP}</p>${live?"":`<p class="q">${t.demoRec}</p>`}<form id="rf"><label for="pw1">${t.newT}</label><input id="pw1" type="password" minlength="8" required autocomplete="new-password"><label for="pw2">${t.pw2}</label><input id="pw2" type="password" minlength="8" required autocomplete="new-password">${mh()}<button class="cbtn" type="submit">${t.setBtn}</button></form>`;
+ else if(mode==="forgot")h+=`<h1>${t.fT}</h1><p class="mu">${t.fP}</p><form id="ff"><label for="em">${t.em}</label><input id="em" type="email" required autocomplete="email">${mh()}<button class="cbtn" type="submit">${t.fSend}</button><button type="button" class="lnk" data-act="back">${t.back}</button></form>`;
+ else if(!CU)h+=`<h1>${t.cab}</h1><div class="tabs2" role="tablist"><button data-act="tab-in" aria-selected="${mode==="in"}">${t.si}</button><button data-act="tab-up" aria-selected="${mode==="up"}">${t.su}</button></div><form id="af"><label for="em">${t.em}</label><input id="em" type="email" required autocomplete="email"><label for="pw">${t.pw}</label><input id="pw" type="password" minlength="8" required autocomplete="${mode==="in"?"current-password":"new-password"}">${mode==="up"?`<label class="chk"><input type="checkbox" id="ag1" required ${ag1?"checked":""}><span>${t.agreePd}</span></label><label class="chk"><input type="checkbox" id="ag2" ${ag2?"checked":""}><span>${t.agreeMail}</span></label>`:""}${mh()}<button class="cbtn" type="submit">${t[mode==="in"?"si":"su"]}</button>${mode==="in"?`<button type="button" class="lnk" data-act="forgot">${t.forgot}</button>`:""}</form>`;
+ else if(CU.admin)h+=await aHTML(t);
+ else{if(!loaded)await reload();try{NOTES=await B.notes(CU)}catch(e){NOTES=[]}h+=pHTML(t)}
+ $("#cabbody").innerHTML=h;
+ if(flash)$("#cabbody").scrollIntoView({behavior:"smooth",block:"start"});
+ document.querySelectorAll("#cabbody input,#cabbody textarea").forEach(i=>{if(i.id&&i.type!=="checkbox"&&keep[i.id]!==undefined)i.value=keep[i.id]});
+ if($("#chatroot"))chatDraw();
+ if($("#suproot"))supDraw();
+ supBadge();
+ if(CU&&(CU.admin?AT==="notes":V==="notes")&&NOTES.some(x=>!x.read))B.notesRead(CU).then(()=>{NOTES.forEach(x=>x.read=true);badge()}).catch(()=>{});
+}
+function cr(){if(!$("#cabview").hidden)cabRender()}
+async function cabInit(){if(!CU){loaded=false;try{CU=await B.user()}catch(e){CU=null}if(CU){badge();pollNotes();rtSub()}}cabRender()}
+document.addEventListener("click",async e=>{
+ const b=e.target.closest("#cabbody [data-act]");if(!b)return;
+ const a=b.dataset.act,t=C[L];msg="";ok=false;flash=null;collect();if(!["pdel","ndel","setadm","gdel"].includes(a))armed=null;
+ if(a==="sq"){const i=$("#sin");i.value=b.dataset.q;i.focus();return}
+ try{
+  if(a==="out"){await B.out();CU=null;loaded=false;keep={};D={};R=null;V="profile";TAB="reg";NOTES=[];lastN=null;rtOff();badge()}
+  else if(a==="tab-in"||a==="tab-up")mode=a.slice(4);
+  else if(a==="forgot")mode="forgot";
+  else if(a==="back"){sent=null;mode="in"}
+  else if(a==="resend"){if(live){const{error}=await sb.auth.resend({type:"signup",email:sent});if(error)throw error}if(live)flash=t.resent}
+  else if(a==="v-profile"||a==="v-app"||a==="v-chat"||a==="v-notes"||a==="v-support")V=a.slice(2);
+  else if(a.startsWith("t-"))TAB=a.slice(2);
+  else if(a==="submit"){await B.save(CU,D);await B.submit(CU);loaded=false;V="app";flash=t.subApp}
+  else if(a==="approved"||a==="rejected"||a==="needs_info"){const c=($("#cm-"+b.dataset.id)||{}).value||"";if(a==="needs_info"&&!c.trim())msg=t.needCmt;else{await B.decide(b.dataset.id,a,c);clr("cm-"+b.dataset.id)}}
+  else if(a.startsWith("at-"))AT=a.slice(3);
+  else if(a==="psave"){const i=b.dataset.id,g=k=>$("#"+k+"-"+i).value.trim(),u=g("pu"),lg=g("pl");if(!g("pn"))throw new Error(t.pname);if((u&&!/^https?:\/\//i.test(u))||(lg&&!/^https?:\/\//i.test(lg)))throw new Error(t.badUrl);const p={name:g("pn"),url:u,logo:lg,sort:+g("ps")||0};if(i!=="new")p.id=i;await B.psave(p);if(i==="new")["pn","pu","pl","ps"].forEach(k=>clr(k+"-new"));await loadPub();msg=t.saved;ok=true}
+  else if(a==="pdel"||a==="ndel"){const k=(a==="pdel"?"p":"n")+b.dataset.id;if(armed===k){await(a==="pdel"?B.pdel:B.ndel)(b.dataset.id);armed=null;await loadPub();msg=t.saved;ok=true}else armed=k}
+  else if(a==="nsave"){const i=b.dataset.id,ti=$("#nt-"+i).value.trim();if(!ti)throw new Error(t.ntitle);const im=$("#ni-"+i).value.trim();if(im&&!imgOk(im))throw new Error(t.badImg);const n={title:ti,body:$("#nb-"+i).value.trim(),image:im||null};if(i!=="new")n.id=i;await B.nsave(n);if(i==="new"){clr("nt-new");clr("nb-new");clr("ni-new")}await loadPub();msg=t.saved;ok=true}
+  else if(a==="sth")CT=b.dataset.id;
+  else if(a==="sflt")SFLT=b.dataset.v;
+  else if(a==="sstat")await B.sStatus(b.dataset.id,b.dataset.st);
+  else if(a==="grp"){CG=+b.dataset.id;CMODE="chat"}
+  else if(a==="gnew")CMODE="new";
+  else if(a==="gcancel")CMODE="chat";
+  else if(a==="gmem")CMODE="members";
+  else if(a==="gcall")CMODE="call";
+  else if(a==="gcreate"){const nm=$("#gname").value.trim();if(!nm)throw new Error(t.gname);const ids=[...document.querySelectorAll("[data-gm]:checked")].map(i=>i.dataset.gm);CG=await B.mkGroup(nm,ids);CMODE="chat"}
+  else if(a==="gmadd"){const v=$("#gmsel").value;if(v)await B.setMember(CG,v,true)}
+  else if(a==="gmrm")await B.setMember(CG,b.dataset.id,false);
+  else if(a==="gdel"){const k="g"+b.dataset.id;if(armed===k){await B.delGroup(+b.dataset.id);armed=null;CG=null;CMODE="chat"}else armed=k}
+  else if(a==="mpin")await B.pin(b.dataset.id,b.dataset.pin==="1");
+  else if(a==="mmute")await B.mute(b.dataset.id,b.dataset.un==="1"?-1:+$("#mdur").value);
+  else if(a==="callgo"){const ti=$("#ctitle").value.trim()||t.defCall,u=$("#curl").value.trim()||"https://meet.jit.si/NOKI-"+Math.random().toString(36).slice(2,10),at=$("#cat").value;if(!/^https?:\/\//i.test(u))throw new Error(t.badUrl);await B.send(CU,CG,ti,"call",{title:ti,url:u,at:at?new Date(at).toISOString():null});CMODE="chat"}
+  else if(a==="setadm"){const id=b.dataset.id,k="a"+id;if(armed===k){await B.setAdmin(id,b.dataset.make==="1");armed=null;msg=t.saved;ok=true}else armed=k}
+  else if(a==="mdel"){await B.delmsg(b.dataset.id)}
+  else if(a==="nsend"){const one=$("#na").value==="one",au=one?$("#ne").value.trim():$("#na").value,ti=$("#ntt").value.trim();if(!ti)throw new Error(t.ntitle);if(one&&!au.includes("@"))throw new Error(t.needEmail);const c=await B.notify(au,ti,$("#nbb").value.trim(),$("#nmail").checked);clr("ntt");clr("nbb");flash=t.nSent.replace("{n}",c)}
+  else if(a==="perm"){try{await Notification.requestPermission()}catch(e){}}
+  else if(a==="copy"){await navigator.clipboard.writeText(lastAcc.map(x=>x.email).join(", "));msg=t.copied;ok=true}
+  else if(a==="csv"){const q=v=>'"'+String(v??"").replace(/"/g,'""')+'"',rows=[["email","name","phone","guardian_phone","guardian_email","status"],...lastAcc.map(x=>[x.email,x.full_name,x.phone,x.g_phone,x.g_mail,x.status])],u=URL.createObjectURL(new Blob(["\ufeff"+rows.map(r=>r.map(q).join(";")).join("\r\n")],{type:"text/csv"})),l=document.createElement("a");l.href=u;l.download="noki-contacts.csv";l.click();URL.revokeObjectURL(u)}
+  else if(a==="appeal"){const v=$("#ap").value.trim();if(!v)msg=t.need;else{await B.appeal(CU,v);delete keep.ap;loaded=false;flash=t.subAppeal}}
+  else if(a==="open"){const u=await B.url(b.dataset.path);if(u)window.open(u,"_blank","noopener");else msg=t.demoFile}
+  else if(a.startsWith("f-"))flt=a.slice(2);
+ }catch(x){msg=t.bad+er(x,t)}
+ cabRender();
+});
+document.addEventListener("submit",async e=>{
+ const f=e.target.id;if(f==="cf"){e.preventDefault();chatSend();return}if(f==="sf"){e.preventDefault();supSend();return}if(!["af","tf","ff","rf"].includes(f))return;e.preventDefault();
+ const t=C[L];msg="";ok=false;flash=null;
+ try{
+  if(f==="af"){const em=$("#em").value.trim(),pw=$("#pw").value;delete keep.pw;if(mode==="up"){if(!$("#ag1").checked)throw new Error(t.needAgree);autoc=await B.up(em,pw,{consent_pd:true,consent_mail:$("#ag2").checked,consent_at:new Date().toISOString()});sent=em;if(live&&!autoc)flash=t.subMail}else{await B.in(em,pw);loaded=false;CU=await B.user();lastN=null;pollNotes();rtSub()}}
+  else if(f==="ff"){const em=$("#em").value.trim(),ex=await B.reset(em);if(!live){if(ex)rec=em;else msg=t.demoNo}else flash=t.fOk}
+  else if(f==="rf"){const p=$("#pw1").value;if(p!==$("#pw2").value)msg=t.mism;else{await B.setpw(p,rec);rec=null;mode="in";delete keep.pw1;delete keep.pw2;loaded=false;CU=await B.user();if(!CU){msg=t.pwOk;ok=true}}}
+  else{collect();if(D.birth&&!(D.birth>"2007-12-17"&&D.birth<="2012-12-17"))msg=t.age;else{await B.save(CU,D);loaded=false;msg=t.saved;ok=true}}
+ }catch(x){msg=t.bad+er(x,t)}
+ cabRender();
+});
+document.addEventListener("change",async e=>{
+ const i=e.target;if(i.type==="file"&&i.id.startsWith("pf-")&&i.files[0]){try{const u=await B.logo(i.files[0]);if(u)$("#pl-"+i.id.slice(3)).value=u}catch(x){msg=C[L].bad+er(x,C[L]);cabRender()}return}
+ if(i.type==="file"&&i.id.startsWith("nf-")&&i.files[0]){try{const u=await B.newsImg(i.files[0]);if(u)$("#ni-"+i.id.slice(3)).value=u}catch(x){msg=C[L].bad+er(x,C[L]);cabRender()}return}
+ if(i.type!=="file"||!i.id.startsWith("f_")||!CU)return;
+ const f=i.files[0],t=C[L],k=i.id.slice(2);if(!f)return;ok=false;
+ const lim=(TABS.flatMap(x=>F[x]).find(x=>x.k===k)||{}).max||3;
+ if(f.size>lim*1048576)msg=t.big.replace("3",lim);
+ else try{collect();D[k]=await B.upload(CU,k,f);await B.save(CU,D);loaded=false;msg=t.saved;ok=true}catch(x){msg=t.bad+er(x,t)}
+ cabRender();
+});
+document.addEventListener("input",e=>{if(e.target.id!=="qs")return;const v=e.target.value.toLowerCase();document.querySelectorAll("#ctab tbody tr").forEach(r=>r.hidden=!r.textContent.toLowerCase().includes(v))});
+const TR={а:"a",б:"b",в:"v",г:"g",д:"d",е:"e",ё:"e",ж:"zh",з:"z",и:"i",й:"i",к:"k",л:"l",м:"m",н:"n",о:"o",п:"p",р:"r",с:"s",т:"t",у:"u",ф:"f",х:"kh",ц:"ts",ч:"ch",ш:"sh",щ:"shch",ъ:"ie",ы:"y",ь:"",э:"e",ю:"iu",я:"ia"};
+const lat=v=>(v||"").toLowerCase().replace(/[а-яё]/g,c=>TR[c]).replace(/(^|[\s-])([a-z])/g,(m,a,b)=>a+b.toUpperCase());
+const PR={f_last_ru:"f_last_en",f_first_ru:"f_first_en",f_mid_ru:"f_mid_en"},PREV={};
+document.addEventListener("input",e=>{
+ const id=e.target.id,en=PR[id];if(!en)return;
+ const t=$("#"+en);if(!t)return;
+ const prev=PREV[id]!==undefined?PREV[id]:e.target.defaultValue;
+ if(!t.value||t.value===lat(prev))t.value=lat(e.target.value);
+ PREV[id]=e.target.value;
+});
+const safe=u=>/^https?:\/\//i.test(u||"")?u:"";
+const tile=p=>{const u=safe(p.url),i=safe(p.logo)?`<img src="${esc(p.logo)}" alt="${esc(p.name)}" loading="lazy">`:esc(p.name);return u?`<a class="pt" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${i}</a>`:`<div class="pt">${i}</div>`};
+async function loadPub(){try{[PARTNERS,NEWS]=await Promise.all([B.partners(),B.news()])}catch(e){}pubLoaded=true;pubRender()}
+async function newsPage(id){
+ const t=C[L];if(!pubLoaded)await loadPub();
+ const n=NEWS.find(x=>String(x.id)===id);
+ $("#newsbody").innerHTML=`<button class="cbtn gh" data-nback style="margin:0 0 18px">← ${t.newsBack}</button>`+(n?`<small class="mu">${fmt(n.created_at)}</small><h1>${esc(n.title)}</h1>${imgOk(n.image)?`<img class="nh" src="${esc(n.image)}" alt="">`:""}<div class="nt">${esc(n.body)}</div>`:`<p class="q">${t.noNews}</p>`);
+ if(n)document.title=n.title+" — "+T[L].name;
+}
+document.addEventListener("click",e=>{if(e.target.closest("[data-nback]"))go("#news")});
+function pubRender(){
+ const t=T[L];$("#bell").setAttribute("aria-label",C[L].notes);
+ let a=PARTNERS.length?PARTNERS.map(tile):Array.from({length:8},(_,i)=>`<div class="pt">${t.pt}<br>${i+1}</div>`);
+ while(a.length<8)a=a.concat(a);
+ $("#track").innerHTML=a.join("")+a.join("");
+ $("#newsbox").innerHTML=NEWS.map(n=>`<a class="nc" href="#news/${esc(n.id)}">${imgOk(n.image)?`<img class="ni" src="${esc(n.image)}" alt="" loading="lazy">`:""}<small>${fmt(n.created_at)}</small><h3>${esc(n.title)}</h3><p>${esc((n.body||"").slice(0,140))}${(n.body||"").length>140?"…":""}</p><b class="rm">${C[L].readMore}</b></a>`).join("");
+ if(!$("#newsview").hidden)newsPage(cur.slice(6));
+ $("#news").hidden=!NEWS.length;document.querySelectorAll('a[href="#news"]').forEach(x=>x.hidden=!NEWS.length);
+}
+const POL="1. Общие положения\nНастоящая политика обработки персональных данных составлена в соответствии с требованиями Федерального закона от 27.07.2006. № 152-ФЗ «О персональных данных» (далее — Закон о персональных данных) и определяет порядок обработки персональных данных и меры по обеспечению безопасности персональных данных, предпринимаемые Новым обществом креативных инициатив (далее — Оператор).\n1.1. Оператор ставит своей важнейшей целью и условием осуществления своей деятельности соблюдение прав и свобод человека и гражданина при обработке его персональных данных, в том числе защиты прав на неприкосновенность частной жизни, личную и семейную тайну.\n1.2. Настоящая политика Оператора в отношении обработки персональных данных (далее — Политика) применяется ко всей информации, которую Оператор может получить о посетителях веб-сайта https://mmf.nokimol.ru.\n2. Основные понятия, используемые в Политике\n2.1. Автоматизированная обработка персональных данных — обработка персональных данных с помощью средств вычислительной техники.\n2.2. Блокирование персональных данных — временное прекращение обработки персональных данных (за исключением случаев, если обработка необходима для уточнения персональных данных).\n2.3. Веб-сайт — совокупность графических и информационных материалов, а также программ для ЭВМ и баз данных, обеспечивающих их доступность в сети интернет по сетевому адресу https://mmf.nokimol.ru.\n2.4. Информационная система персональных данных — совокупность содержащихся в базах данных персональных данных и обеспечивающих их обработку информационных технологий и технических средств.\n2.5. Обезличивание персональных данных — действия, в результате которых невозможно определить без использования дополнительной информации принадлежность персональных данных конкретному Пользователю или иному субъекту персональных данных.\n2.6. Обработка персональных данных — любое действие (операция) или совокупность действий (операций), совершаемых с использованием средств автоматизации или без использования таких средств с персональными данными, включая сбор, запись, систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передачу (распространение, предоставление, доступ), обезличивание, блокирование, удаление, уничтожение персональных данных.\n2.7. Оператор — государственный орган, муниципальный орган, юридическое или физическое лицо, самостоятельно или совместно с другими лицами организующие и/или осуществляющие обработку персональных данных, а также определяющие цели обработки персональных данных, состав персональных данных, подлежащих обработке, действия (операции), совершаемые с персональными данными.\n2.8. Персональные данные — любая информация, относящаяся прямо или косвенно к определенному или определяемому Пользователю веб-сайта https://mmf.nokimol.ru.\n2.9. Персональные данные, разрешенные субъектом персональных данных для распространения, — персональные данные, доступ неограниченного круга лиц к которым предоставлен субъектом персональных данных путем дачи согласия на обработку персональных данных, разрешенных субъектом персональных данных для распространения в порядке, предусмотренном Законом о персональных данных (далее — персональные данные, разрешенные для распространения).\n2.10. Пользователь — любой посетитель веб-сайта https://mmf.nokimol.ru.\n2.11. Предоставление персональных данных — действия, направленные на раскрытие персональных данных определенному лицу или определенному кругу лиц.\n2.12. Распространение персональных данных — любые действия, направленные на раскрытие персональных данных неопределенному кругу лиц (передача персональных данных) или на ознакомление с персональными данными неограниченного круга лиц, в том числе обнародование персональных данных в средствах массовой информации, размещение в информационно-телекоммуникационных сетях или предоставление доступа к персональным данным каким-либо иным способом.\n2.13. Трансграничная передача персональных данных — передача персональных данных на территорию иностранного государства органу власти иностранного государства, иностранному физическому или иностранному юридическому лицу.\n2.14. Уничтожение персональных данных — любые действия, в результате которых персональные данные уничтожаются безвозвратно с невозможностью дальнейшего восстановления содержания персональных данных в информационной системе персональных данных и/или уничтожаются материальные носители персональных данных.\n3. Основные права и обязанности Оператора\n3.1. Оператор имеет право:\n— получать от субъекта персональных данных достоверные информацию и/или документы, содержащие персональные данные;\n— в случае отзыва субъектом персональных данных согласия на обработку персональных данных, а также, направления обращения с требованием о прекращении обработки персональных данных, Оператор вправе продолжить обработку персональных данных без согласия субъекта персональных данных при наличии оснований, указанных в Законе о персональных данных;\n— самостоятельно определять состав и перечень мер, необходимых и достаточных для обеспечения выполнения обязанностей, предусмотренных Законом о персональных данных и принятыми в соответствии с ним нормативными правовыми актами, если иное не предусмотрено Законом о персональных данных или другими федеральными законами.\n3.2. Оператор обязан:\n— предоставлять субъекту персональных данных по его просьбе информацию, касающуюся обработки его персональных данных;\n— организовывать обработку персональных данных в порядке, установленном действующим законодательством РФ;\n— отвечать на обращения и запросы субъектов персональных данных и их законных представителей в соответствии с требованиями Закона о персональных данных;\n— сообщать в уполномоченный орган по защите прав субъектов персональных данных по запросу этого органа необходимую информацию в течение 10 дней с даты получения такого запроса;\n— публиковать или иным образом обеспечивать неограниченный доступ к настоящей Политике в отношении обработки персональных данных;\n— принимать правовые, организационные и технические меры для защиты персональных данных от неправомерного или случайного доступа к ним, уничтожения, изменения, блокирования, копирования, предоставления, распространения персональных данных, а также от иных неправомерных действий в отношении персональных данных;\n— прекратить передачу (распространение, предоставление, доступ) персональных данных, прекратить обработку и уничтожить персональные данные в порядке и случаях, предусмотренных Законом о персональных данных;\n— исполнять иные обязанности, предусмотренные Законом о персональных данных.\n4. Основные права и обязанности субъектов персональных данных\n4.1. Субъекты персональных данных имеют право:\n— получать информацию, касающуюся обработки его персональных данных, за исключением случаев, предусмотренных федеральными законами. Сведения предоставляются субъекту персональных данных Оператором в доступной форме, и в них не должны содержаться персональные данные, относящиеся к другим субъектам персональных данных, за исключением случаев, когда имеются законные основания для раскрытия таких персональных данных. Перечень информации и порядок ее получения установлен Законом о персональных данных;\n— требовать от оператора уточнения его персональных данных, их блокирования или уничтожения в случае, если персональные данные являются неполными, устаревшими, неточными, незаконно полученными или не являются необходимыми для заявленной цели обработки, а также принимать предусмотренные законом меры по защите своих прав;\n— выдвигать условие предварительного согласия при обработке персональных данных в целях продвижения на рынке товаров, работ и услуг;\n— на отзыв согласия на обработку персональных данных, а также, на направление требования о прекращении обработки персональных данных;\n— обжаловать в уполномоченный орган по защите прав субъектов персональных данных или в судебном порядке неправомерные действия или бездействие Оператора при обработке его персональных данных;\n— на осуществление иных прав, предусмотренных законодательством РФ.\n4.2. Субъекты персональных данных обязаны:\n— предоставлять Оператору достоверные данные о себе;\n— сообщать Оператору об уточнении (обновлении, изменении) своих персональных данных.\n4.3. Лица, передавшие Оператору недостоверные сведения о себе, либо сведения о другом субъекте персональных данных без согласия последнего, несут ответственность в соответствии с законодательством РФ.\n5. Принципы обработки персональных данных\n5.1. Обработка персональных данных осуществляется на законной и справедливой основе.\n5.2. Обработка персональных данных ограничивается достижением конкретных, заранее определенных и законных целей. Не допускается обработка персональных данных, несовместимая с целями сбора персональных данных.\n5.3. Не допускается объединение баз данных, содержащих персональные данные, обработка которых осуществляется в целях, несовместимых между собой.\n5.4. Обработке подлежат только персональные данные, которые отвечают целям их обработки.\n5.5. Содержание и объем обрабатываемых персональных данных соответствуют заявленным целям обработки. Не допускается избыточность обрабатываемых персональных данных по отношению к заявленным целям их обработки.\n5.6. При обработке персональных данных обеспечивается точность персональных данных, их достаточность, а в необходимых случаях и актуальность по отношению к целям обработки персональных данных. Оператор принимает необходимые меры и/или обеспечивает их принятие по удалению или уточнению неполных или неточных данных.\n5.7. Хранение персональных данных осуществляется в форме, позволяющей определить субъекта персональных данных, не дольше, чем этого требуют цели обработки персональных данных, если срок хранения персональных данных не установлен федеральным законом, договором, стороной которого, выгодоприобретателем или поручителем по которому является субъект персональных данных. Обрабатываемые персональные данные уничтожаются либо обезличиваются по достижении целей обработки или в случае утраты необходимости в достижении этих целей, если иное не предусмотрено федеральным законом.\n6. Цели обработки персональных данных\nЦель обработки\tинформирование Пользователя посредством отправки электронных писем\nПерсональные данные\t\nфамилия, имя, отчество\nэлектронный адрес\nномера телефонов\nфотографии\nсвидетельство о гражданстве\nреквизиты документа, удостоверяющего личность\nидентификационный номер налогоплательщика, дата постановки его на учет, реквизиты свидетельства постановки на учет в налоговом органе\nномер свидетельства обязательного пенсионного страхования, дата регистрации в системе обязательного пенсионного страхования\nномер полиса обязательного медицинского страхования\nадрес фактического места проживания и регистрации по месту жительства и/или по месту пребывания\nсведения об образовании, профессии, специальности и квалификации, реквизиты документов об образовании\nсведения о семейном положении и составе семьи\nсведения об имущественном положении\nПравовые основания\t\nФедеральный закон «Об информации, информационных технологиях и о защите информации» от 27.07.2006 N 149-ФЗ\nВиды обработки персональных данных\t\nСбор, запись, систематизация, накопление, хранение, уничтожение и обезличивание персональных данных\nОтправка информационных писем на адрес электронной почты\n7. Условия обработки персональных данных\n7.1. Обработка персональных данных осуществляется с согласия субъекта персональных данных на обработку его персональных данных.\n7.2. Обработка персональных данных необходима для достижения целей, предусмотренных международным договором Российской Федерации или законом, для осуществления возложенных законодательством Российской Федерации на оператора функций, полномочий и обязанностей.\n7.3. Обработка персональных данных необходима для осуществления правосудия, исполнения судебного акта, акта другого органа или должностного лица, подлежащих исполнению в соответствии с законодательством Российской Федерации об исполнительном производстве.\n7.4. Обработка персональных данных необходима для исполнения договора, стороной которого либо выгодоприобретателем или поручителем по которому является субъект персональных данных, а также для заключения договора по инициативе субъекта персональных данных или договора, по которому субъект персональных данных будет являться выгодоприобретателем или поручителем.\n7.5. Обработка персональных данных необходима для осуществления прав и законных интересов оператора или третьих лиц либо для достижения общественно значимых целей при условии, что при этом не нарушаются права и свободы субъекта персональных данных.\n7.6. Осуществляется обработка персональных данных, доступ неограниченного круга лиц к которым предоставлен субъектом персональных данных либо по его просьбе (далее — общедоступные персональные данные).\n7.7. Осуществляется обработка персональных данных, подлежащих опубликованию или обязательному раскрытию в соответствии с федеральным законом.\n8. Порядок сбора, хранения, передачи и других видов обработки персональных данных\nБезопасность персональных данных, которые обрабатываются Оператором, обеспечивается путем реализации правовых, организационных и технических мер, необходимых для выполнения в полном объеме требований действующего законодательства в области защиты персональных данных.\n8.1. Оператор обеспечивает сохранность персональных данных и принимает все возможные меры, исключающие доступ к персональным данным неуполномоченных лиц.\n8.2. Персональные данные Пользователя никогда, ни при каких условиях не будут переданы третьим лицам, за исключением случаев, связанных с исполнением действующего законодательства либо в случае, если субъектом персональных данных дано согласие Оператору на передачу данных третьему лицу для исполнения обязательств по гражданско-правовому договору.\n8.3. В случае выявления неточностей в персональных данных, Пользователь может актуализировать их самостоятельно, путем направления Оператору уведомление на адрес электронной почты Оператора legal@nokimol.ru с пометкой «Актуализация персональных данных».\n8.4. Срок обработки персональных данных определяется достижением целей, для которых были собраны персональные данные, если иной срок не предусмотрен договором или действующим законодательством.\nПользователь может в любой момент отозвать свое согласие на обработку персональных данных, направив Оператору уведомление посредством электронной почты на электронный адрес Оператора legal@nokimol.ru с пометкой «Отзыв согласия на обработку персональных данных».\n8.5. Вся информация, которая собирается сторонними сервисами, в том числе платежными системами, средствами связи и другими поставщиками услуг, хранится и обрабатывается указанными лицами (Операторами) в соответствии с их Пользовательским соглашением и Политикой конфиденциальности. Субъект персональных данных и/или с указанными документами. Оператор не несет ответственность за действия третьих лиц, в том числе указанных в настоящем пункте поставщиков услуг.\n8.6. Установленные субъектом персональных данных запреты на передачу (кроме предоставления доступа), а также на обработку или условия обработки (кроме получения доступа) персональных данных, разрешенных для распространения, не действуют в случаях обработки персональных данных в государственных, общественных и иных публичных интересах, определенных законодательством РФ.\n8.7. Оператор при обработке персональных данных обеспечивает конфиденциальность персональных данных.\n8.8. Оператор осуществляет хранение персональных данных в форме, позволяющей определить субъекта персональных данных, не дольше, чем этого требуют цели обработки персональных данных, если срок хранения персональных данных не установлен федеральным законом, договором, стороной которого, выгодоприобретателем или поручителем по которому является субъект персональных данных.\n8.9. Условием прекращения обработки персональных данных может являться достижение целей обработки персональных данных, истечение срока действия согласия субъекта персональных данных, отзыв согласия субъектом персональных данных или требование о прекращении обработки персональных данных, а также выявление неправомерной обработки персональных данных.\n9. Перечень действий, производимых Оператором с полученными персональными данными\n9.1. Оператор осуществляет сбор, запись, систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передачу (распространение, предоставление, доступ), обезличивание, блокирование, удаление и уничтожение персональных данных.\n9.2. Оператор осуществляет автоматизированную обработку персональных данных с получением и/или передачей полученной информации по информационно-телекоммуникационным сетям или без таковой.\n10. Трансграничная передача персональных данных\n10.1. Оператор до начала осуществления деятельности по трансграничной передаче персональных данных обязан уведомить уполномоченный орган по защите прав субъектов персональных данных о своем намерении осуществлять трансграничную передачу персональных данных (такое уведомление направляется отдельно от уведомления о намерении осуществлять обработку персональных данных).\n10.2. Оператор до подачи вышеуказанного уведомления, обязан получить от органов власти иностранного государства, иностранных физических лиц, иностранных юридических лиц, которым планируется трансграничная передача персональных данных, соответствующие сведения.\n11. Конфиденциальность персональных данных\nОператор и иные лица, получившие доступ к персональным данным, обязаны не раскрывать третьим лицам и не распространять персональные данные без согласия субъекта персональных данных, если иное не предусмотрено федеральным законом.\n12. Заключительные положения\n12.1. Пользователь может получить любые разъяснения по интересующим вопросам, касающимся обработки его персональных данных, обратившись к Оператору с помощью электронной почты legal@nokimol.ru.\n12.2. В данном документе будут отражены любые изменения политики обработки персональных данных Оператором. Политика действует бессрочно до замены ее новой версией.\n12.3. Актуальная версия Политики в свободном доступе расположена в сети Интернет по адресу https://mmf.nokimol.ru.\n";
+async function privLoad(){
+ const t=C[L];
+ $("#privbody").innerHTML=`<button class="cbtn gh" data-pback style="margin:0 0 18px">← ${t.back2}</button><h1>${t.privT}</h1><p class="mu">${t.privOp}</p>${L==="ru"?"":`<p class="q">${t.privNote}</p>`}<div id="ptxt"></div>`;
+ let x=POL;
+ try{const r=await fetch("privacy.txt");if(r.ok){const y=await r.text();if(y.trim()&&!/^\s*</.test(y))x=y}}catch(e){}
+ $("#ptxt").innerHTML=x.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).map(l=>{
+  if(/^\d+\.\s/.test(l))return `<h3>${esc(l)}</h3>`;
+  if(["Персональные данные","Правовые основания","Виды обработки персональных данных"].includes(l))return `<p style="margin-top:16px"><b>${esc(l)}</b></p>`;
+  if(l.includes("\t")){const i=l.indexOf("\t");return `<p><b>${esc(l.slice(0,i).trim())}</b> ${esc(l.slice(i+1).trim())}</p>`}
+  return l.startsWith("—")?`<p class="li">${esc(l)}</p>`:`<p>${esc(l)}</p>`}).join("")
+}
+document.addEventListener("click",e=>{if(e.target.closest("[data-pback]"))go(back)});
+function go(h){
+ const c=h==="#cabinet",p=h==="#privacy",n=h.startsWith("#news/"),from=cur;
+ if(!$("#cabview").hidden)snap();
+ cur=h;if(p&&from!=="#privacy")back=from;
+ $("main").hidden=c||p||n;$("#cabview").hidden=!c;$("#privview").hidden=!p;$("#newsview").hidden=!n;
+ if(!n)document.title=T[L].name;
+ if(c){if(from!=="#privacy")loaded=false;cabInit();scrollTo(0,0)}
+ else if(p){privLoad();scrollTo(0,0)}
+ else if(n){newsPage(h.slice(6));scrollTo(0,0)}
+ else if(h&&h.length>1){requestAnimationFrame(()=>{try{document.querySelector(h)?.scrollIntoView({behavior:"smooth"})}catch(e){}})}
+ else scrollTo(0,0)
+}
+function route(){go(location.hash)}
+document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();const h=a.getAttribute("href");try{history.replaceState(null,"",h)}catch(_){}go(h)});
+addEventListener("hashchange",route);
+let th;try{th=localStorage.getItem("noki-theme")}catch(e){}
+if(th!=="dark"&&th!=="light")th=matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";
+function setTh(v,save){th=v;document.documentElement.dataset.theme=v;$("#tg").textContent=v==="dark"?"☀":"☾";if(save){try{localStorage.setItem("noki-theme",v)}catch(e){}}}
+setTh(th,false);
+$("#tg").addEventListener("click",()=>setTh(th==="dark"?"light":"dark",true));
+render();setInterval(tick,1000);route();loadPub();
+B.user().then(u=>{if(u){CU=u;badge();pollNotes();rtSub()}}).catch(()=>{});setInterval(pollNotes,30000);
+setInterval(()=>{if($("#cabview").hidden||!CU||document.querySelector("#cabbody :focus"))return;if(!CU.admin)B.notes(CU).then(a=>{NOTES=a;badge()}).catch(()=>{});if(CU.admin){if(AT==="apps")cabRender()}else if(V==="app"){loaded=false;cabRender()}},20000);
+</script></body></html>
